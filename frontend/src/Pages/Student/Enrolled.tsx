@@ -73,13 +73,13 @@ export default function StudentEnrolledCourses() {
                 icon: <Layers className="h-4 w-4" />,
                 value: totalCourses + "+",
                 label: "Enrolled Courses",
-                color: "text-blue-600"
+                color: "text-primary"
             },
             {
                 icon: <BookCheck className="h-4 w-4" />,
                 value: new Intl.NumberFormat("en-US", { notation: "compact" }).format(totalLessons),
                 label: "Total Lessons",
-                color: "text-green-600"
+                color: "text-success"
             }
         ];
     }, [myCourseInfo]);

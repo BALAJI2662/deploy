@@ -34,10 +34,10 @@ export default function LeadCourseEnrollDetailesPage() {
 
   if (!courseData || courseData.length === 0 || !courseData[0]?.course?.[0]?.courseId) {
     return (
-      <div className="min-h-screen bg-gray-50/50 p-4 lg:p-6">
+      <div className="min-h-screen bg-muted/50 p-4 lg:p-6">
         <div className="max-w-7xl mx-auto text-center py-20">
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Course not found</h2>
-          <p className="text-gray-500 mb-4">The course you're looking for doesn't exist or has been removed.</p>
+          <h2 className="text-xl font-semibold text-foreground mb-2">Course not found</h2>
+          <p className="text-muted-foreground mb-4">The course you're looking for doesn't exist or has been removed.</p>
           <Button onClick={() => navigate(-1)} variant="outline">Go Back</Button>
         </div>
       </div>
@@ -53,14 +53,14 @@ export default function LeadCourseEnrollDetailesPage() {
     },1000); 
   }
   return (
-    <div className="min-h-screen bg-gray-50/50 p-4 lg:p-6">
+    <div className="min-h-screen bg-muted/50 p-4 lg:p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6">
           <Button
             onClick={() => navigate(-1)}
             variant="outline"
-            className="flex items-center gap-2 bg-white hover:bg-primary hover:text-white transition-colors duration-200"
+            className="flex items-center gap-2 bg-card hover:bg-primary hover:text-primary-foreground transition-colors duration-200"
           >
             <i className="fa-solid fa-arrow-left text-sm"></i>
             <span className="font-medium">Back to Courses</span>
@@ -71,13 +71,13 @@ export default function LeadCourseEnrollDetailesPage() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-[calc(100vh-140px)]">
           {/* Course Videos Sidebar */}
           <div className="lg:col-span-1 order-2 lg:order-1">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 h-full flex flex-col">
-              <div className="p-4 border-b border-gray-100">
-                <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+            <div className="bg-card rounded-xl shadow-sm border border-border h-full flex flex-col">
+              <div className="p-4 border-b border-border">
+                <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                   <i className="fa-solid fa-list-ul text-primary text-sm"></i>
                   Course Content
                 </h2>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-muted-foreground mt-1">
                   {courseData[0].course[0].courseId.files.length} items
                 </p>
               </div>
@@ -100,8 +100,8 @@ export default function LeadCourseEnrollDetailesPage() {
                       <div className={`
                         flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center
                         ${value && value - 1 === index 
-                          ? "bg-primary text-white" 
-                          : "bg-gray-100 text-gray-400 group-hover:bg-primary/20 group-hover:text-primary"
+                          ? "bg-primary text-primary-foreground" 
+                          : "bg-muted text-muted-foreground group-hover:bg-primary/20 group-hover:text-primary"
                         }
                       `}>
                         <i className={`fa-solid ${data.resourceType === "pdf" ? "fa-file-pdf" : data.resourceType === "image" ? "fa-image" : value && value - 1 === index ? "fa-pause" : "fa-play"} text-xs`}></i>
@@ -112,12 +112,12 @@ export default function LeadCourseEnrollDetailesPage() {
                           text-sm font-medium truncate
                           ${value && value - 1 === index 
                             ? "text-primary" 
-                            : "text-gray-700 group-hover:text-gray-900"
+                            : "text-foreground group-hover:text-foreground"
                           }
                         `}>
                           {data.title}
                         </p>
-                        <p className="text-xs text-gray-500 mt-0.5">
+                        <p className="text-xs text-muted-foreground mt-0.5">
                           {(data.resourceType || "video").toUpperCase()} {index + 1}
                         </p>
                       </div>
@@ -136,20 +136,20 @@ export default function LeadCourseEnrollDetailesPage() {
 
           {/* Video Player Section */}
           <div className="lg:col-span-3 order-1 lg:order-2">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 h-full flex flex-col">
+            <div className="bg-card rounded-xl shadow-sm border border-border h-full flex flex-col">
               {courseData[0].course[0].courseId.files
                 .filter((_, index) => index + 1 === value)
                 .map((data) => (
                   <div key={data.title} className="h-full flex flex-col">
                     {/* Video Container */}
                     <div className="flex-1 p-4 lg:p-6">
-                      <div className="w-full h-full min-h-[300px] lg:min-h-[400px] rounded-lg overflow-hidden bg-black/5 flex items-center justify-center">
+                      <div className="w-full h-full min-h-[300px] lg:min-h-[400px] rounded-lg overflow-hidden bg-muted flex items-center justify-center">
                         {videoLoad ? (
                           <div className="flex flex-col items-center gap-4">
-                            <p className="text-sm text-gray-500">Loading video...</p>
+                            <p className="text-sm text-muted-foreground">Loading video...</p>
                           </div>
                         ) : data.resourceType === "pdf" ? (
-                          <iframe title={data.title} src={data.resourceUrl || data.videoUrl} className="h-full w-full bg-white" />
+                          <iframe title={data.title} src={data.resourceUrl || data.videoUrl} className="h-full w-full bg-card" />
                         ) : data.resourceType === "image" ? (
                           <img src={data.resourceUrl || data.videoUrl} alt={data.title} className="h-full w-full object-contain" />
                         ) : (
@@ -164,13 +164,13 @@ export default function LeadCourseEnrollDetailesPage() {
                     </div>
 
                     {/* Video Info */}
-                    <div className="border-t border-gray-100 p-4 lg:p-6">
+                    <div className="border-t border-border p-4 lg:p-6">
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1">
-                          <h1 className="text-xl lg:text-2xl font-semibold text-gray-900 leading-tight">
+                          <h1 className="text-xl lg:text-2xl font-semibold text-foreground leading-tight">
                             {data.title}
                           </h1>
-                          <div className="flex items-center gap-4 mt-3 text-sm text-gray-500">
+                          <div className="flex items-center gap-4 mt-3 text-sm text-muted-foreground">
                             <span className="flex items-center gap-1">
                               <i className={`fa-solid ${data.resourceType === "pdf" ? "fa-file-pdf" : data.resourceType === "image" ? "fa-image" : "fa-video"} text-xs`}></i>
                               {(data.resourceType || "video").toUpperCase()} {value} of {courseData[0].course[0].courseId.files.length}

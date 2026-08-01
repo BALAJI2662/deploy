@@ -13,35 +13,35 @@ export function Home() {
             label: "Dashboard",
             href: "auth/signin",
             icon: (
-                <Code className="text-neutral-900 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+                <Code className="text-sidebar-foreground h-5 w-5 flex-shrink-0" />
             ),
         },
         {
             label: "All Courses",
             href: "auth/signin",
             icon: (
-                <Folder className="text-neutral-900 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+                <Folder className="text-sidebar-foreground h-5 w-5 flex-shrink-0" />
             ),
         },
         {
             label: "Enrolled Courses",
             href: "auth/signin",
             icon: (
-                <FolderCheck className="text-neutral-900 dark:text-neutral-200 h-54 w-5 flex-shrink-0" />
+                <FolderCheck className="text-sidebar-foreground h-54 w-5 flex-shrink-0" />
             ),
         },
         {
             label: "Register Now",
             href: "auth/signup",
             icon: (
-                <LogInIcon className="text-neutral-900 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+                <LogInIcon className="text-sidebar-foreground h-5 w-5 flex-shrink-0" />
             ),
         },
         {
             label: "Login",
             href: "auth/signin",
             icon: (
-                <CircleArrowRight className="text-neutral-900 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+                <CircleArrowRight className="text-sidebar-foreground h-5 w-5 flex-shrink-0" />
             ),
         }
     ];
@@ -106,7 +106,7 @@ export const Logo = () => {
             <motion.span
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="font-bold text-lg text-black dark:text-white whitespace-pre w-6 h-6"
+                className="font-bold text-lg text-sidebar-foreground whitespace-pre w-6 h-6"
             >
                 CMS
             </motion.span>
@@ -117,9 +117,9 @@ export const LogoIcon = () => {
     return (
         <Link
             to="auth/signin"
-            className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
+            className="font-normal flex space-x-2 items-center text-sm text-sidebar-foreground py-1 relative z-20"
         >
-            <div className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
+            <div className="h-5 w-6 bg-sidebar-foreground rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
         </Link>
     );
 };
@@ -222,7 +222,7 @@ const Dashboard = () => {
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-2">
                                             <div className="flex items-center">
-                                                <span className="text-yellow-400">★</span>
+                                                <span className="text-warning">★</span>
                                                 <span className="ml-1 font-medium">{course.rating}</span>
                                             </div>
                                             <span className="text-muted-foreground">

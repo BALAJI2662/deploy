@@ -126,7 +126,7 @@ export default function WithdrawalPage() {
             setIsLoading(false);
         }
     };    return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 lg:p-6">
+        <div className="min-h-screen bg-background p-4 lg:p-6">
             <div className="max-w-7xl mx-auto space-y-6">
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -208,11 +208,11 @@ export default function WithdrawalPage() {
                         </CardContent>
                     </Card>
 
-                    <Card className="bg-yellow-50 border-none">
+                    <Card className="bg-warning/10 border-none">
                         <CardContent className="p-6">
                             <div className="flex items-center space-x-4">
-                                <div className="p-2 bg-yellow-100 rounded-full">
-                                    <Clock className="h-6 w-6 text-yellow-600" />
+                                <div className="p-2 bg-warning/15 rounded-full">
+                                    <Clock className="h-6 w-6 text-warning" />
                                 </div>
                                 <div>
                                     <p className="text-sm font-medium text-muted-foreground">Pending Requests</p>
@@ -224,11 +224,11 @@ export default function WithdrawalPage() {
                         </CardContent>
                     </Card>
 
-                    <Card className="bg-green-50 border-none">
+                    <Card className="bg-success/10 border-none">
                         <CardContent className="p-6">
                             <div className="flex items-center space-x-4">
-                                <div className="p-2 bg-green-100 rounded-full">
-                                    <CheckCircle className="h-6 w-6 text-green-600" />
+                                <div className="p-2 bg-success/15 rounded-full">
+                                    <CheckCircle className="h-6 w-6 text-success" />
                                 </div>
                                 <div>
                                     <p className="text-sm font-medium text-muted-foreground">Approved Withdrawals</p>
@@ -243,11 +243,11 @@ export default function WithdrawalPage() {
                         </CardContent>
                     </Card>
 
-                    <Card className="bg-red-50 border-none">
+                    <Card className="bg-destructive/10 border-none">
                         <CardContent className="p-6">
                             <div className="flex items-center space-x-4">
-                                <div className="p-2 bg-red-100 rounded-full">
-                                    <AlertCircle className="h-6 w-6 text-red-600" />
+                                <div className="p-2 bg-destructive/15 rounded-full">
+                                    <AlertCircle className="h-6 w-6 text-destructive" />
                                 </div>
                                 <div>
                                     <p className="text-sm font-medium text-muted-foreground">Rejected Requests</p>
@@ -295,10 +295,10 @@ export default function WithdrawalPage() {
                                                 }
                                                 className={`${
                                                     request.status === 'approved'
-                                                        ? "bg-green-100 text-green-800"
+                                                        ? "bg-success/15 text-success"
                                                         : request.status === 'rejected'
-                                                        ? "bg-red-100 text-red-800"
-                                                        : "bg-yellow-100 text-yellow-800"
+                                                        ? "bg-destructive/15 text-destructive"
+                                                        : "bg-warning/15 text-warning"
                                                 }`}
                                             >
                                                 {request.status}

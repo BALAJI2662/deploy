@@ -75,7 +75,7 @@ export default function AuthIcons() {
     <div className=" w-full h-fit flex justify-center items-center mt-10">
       <Button variant={'outline'} type='button'
         onClick={() => login()}
-        className="w-full h-fit flex items-center justify-center gap-4 px-5 py-2 border border-gray-300 hover:bg-gray-100"
+        className="w-full h-fit flex items-center justify-center gap-4 px-5 py-2 border border-border hover:bg-muted"
         style={{ minWidth: '240px' }}
       >
 
@@ -108,7 +108,7 @@ export default function AuthIcons() {
         </svg>
 
        
-        <span className="text-gray-600 font-semibold">Sign in with Google</span>
+        <span className="text-muted-foreground font-semibold">Sign in with Google</span>
       </Button>
     </div>
   );

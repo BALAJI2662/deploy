@@ -77,7 +77,7 @@ export default function SignIn() {
                 </div>
 
                 <Button className="w-full mt-7   p-5" disabled={loading}>{loading ? "Signing in..." : "Signin"}</Button>
-                <Separator className="bg-neutral-400 mt-5" />
+                <Separator className="bg-border mt-5" />
                 <p className="text-xs mt-2 font-bold text-end ">dont't have an account ? <Link to='/auth/signup'><span className="text-primary cursor-pointer"> signup</span></Link></p>
                 <AuthIcons/>
                 

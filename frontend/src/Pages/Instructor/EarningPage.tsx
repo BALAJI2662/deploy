@@ -148,7 +148,7 @@ export default function EarningPage() {
     }, [earningData, searchTerm, sortBy]);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 lg:p-6">
+        <div className="min-h-screen bg-background p-4 lg:p-6">
             <div className="max-w-7xl mx-auto space-y-6">
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -291,8 +291,8 @@ export default function EarningPage() {
                                                     variant={item.orderStatus === "Approved" ? "default" : "secondary"}
                                                     className={
                                                         item.orderStatus === "Approved" 
-                                                            ? "bg-green-100 text-green-800" 
-                                                            : "bg-yellow-100 text-yellow-800"
+                                                            ? "bg-success/15 text-success" 
+                                                            : "bg-warning/15 text-warning"
                                                     }
                                                 >
                                                     {item.orderStatus}

@@ -45,21 +45,21 @@ export default function ViewCourse() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 lg:p-6">
+        <div className="min-h-screen bg-background p-4 lg:p-6">
             <div className="max-w-7xl mx-auto space-y-6">
                 {/* Header Actions */}
                 <div className="flex justify-between items-center">
                     <Button
                         onClick={() => navigate(-1)}
                         variant="outline"
-                        className="flex items-center gap-2 bg-white hover:bg-primary hover:text-white transition-colors duration-200"
+                        className="flex items-center gap-2 bg-card hover:bg-primary hover:text-primary-foreground transition-colors duration-200"
                     >
                         <i className="fa-solid fa-arrow-left text-sm"></i>
                         <span className="font-medium">Back to Courses</span>
                     </Button>
                     <Button 
                         variant="destructive"
-                        className="hover:bg-red-600 transition-colors duration-200"
+                        className="hover:bg-destructive transition-colors duration-200"
                         onClick={() => handleDelete(courseInfo._id)}
                     >
                         <i className="fa-solid fa-trash-alt mr-2"></i>
@@ -68,13 +68,13 @@ export default function ViewCourse() {
                 </div>
 
                 {/* Course Header Card */}
-                <Card className="border-0 shadow-xl bg-white">
+                <Card className="border-0 shadow-xl bg-card">
                     <CardContent className="p-6">
-                        <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                        <h1 className="text-2xl font-bold text-foreground mb-2">
                             {courseInfo.title}
                         </h1>
-                        <p className="text-gray-600 mb-4">{courseInfo.subtitle}</p>
-                        <div className="flex flex-wrap gap-4 text-sm text-gray-500">
+                        <p className="text-muted-foreground mb-4">{courseInfo.subtitle}</p>
+                        <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                             <Badge variant="outline">
                                 <i className="fa-solid fa-user-tie mr-2"></i>
                                 {courseInfo.instructor.name}
@@ -109,7 +109,7 @@ export default function ViewCourse() {
                         <Card className="border-0 shadow-md">
                             <CardContent className="p-6">
                                 <h2 className="text-xl font-semibold mb-4">Course Description</h2>
-                                <p className="text-gray-600 leading-relaxed">{courseInfo.description}</p>
+                                <p className="text-muted-foreground leading-relaxed">{courseInfo.description}</p>
                             </CardContent>
                         </Card>
 
@@ -119,8 +119,8 @@ export default function ViewCourse() {
                                 <h2 className="text-xl font-semibold mb-4">What You'll Learn</h2>
                                 <ul className="space-y-2">
                                     {courseInfo.objectives.split(',').map((objective, index) => (
-                                        <li key={index} className="flex items-start gap-2 text-gray-600">
-                                            <i className="fa-solid fa-check-circle text-green-500 mt-1"></i>
+                                        <li key={index} className="flex items-start gap-2 text-muted-foreground">
+                                            <i className="fa-solid fa-check-circle text-success mt-1"></i>
                                             <span>{objective.trim()}</span>
                                         </li>
                                     ))}
@@ -136,7 +136,7 @@ export default function ViewCourse() {
                                     {courseInfo.files.map((resource, index) => (
                                         <div
                                             key={index}
-                                            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors duration-200"
+                                            className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted cursor-pointer transition-colors duration-200"
                                             onClick={() => setSelectedResource({
                                                 title: resource.title,
                                                 resourceUrl: resource.resourceUrl || resource.videoUrl,
@@ -144,7 +144,7 @@ export default function ViewCourse() {
                                             })}
                                         >
                                             <i className={`fa-solid ${resource.resourceType === "pdf" ? "fa-file-pdf" : resource.resourceType === "image" ? "fa-image" : "fa-circle-play"} text-primary`}></i>
-                                            <span className="text-gray-700">{resource.title}</span>
+                                            <span className="text-foreground">{resource.title}</span>
                                             {resource.freePreview && (
                                                 <Badge variant="secondary" className="ml-auto">Preview</Badge>
                                             )}
@@ -164,7 +164,7 @@ export default function ViewCourse() {
                                 </DialogHeader>
                                 <div className="relative rounded-lg overflow-hidden">
                                     {selectedResource?.resourceType === "pdf" ? (
-                                        <iframe title={selectedResource.title} src={selectedResource.resourceUrl} className="h-[450px] w-full bg-white" />
+                                        <iframe title={selectedResource.title} src={selectedResource.resourceUrl} className="h-[450px] w-full bg-card" />
                                     ) : selectedResource?.resourceType === "image" ? (
                                         <img src={selectedResource.resourceUrl} alt={selectedResource.title} className="max-h-[450px] w-full object-contain" />
                                     ) : (
@@ -186,7 +186,7 @@ export default function ViewCourse() {
                     <div className="lg:col-span-1">
                         <Card className="border-0 shadow-md sticky top-6">
                             <CardContent className="p-6 space-y-6">
-                                <div className="aspect-video rounded-lg overflow-hidden bg-gray-100">
+                                <div className="aspect-video rounded-lg overflow-hidden bg-muted">
                                     <Videoplayer
                                         width="100%"
                                         height="100%"

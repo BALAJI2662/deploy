@@ -43,12 +43,12 @@ export default function StudentCourseEnrollDetailesPage() {
   return (
     <div className="w-full h-full flex flex-col lg:flex-row gap-4 p-4 bg-background">
       {/* Course Navigation Sidebar */}
-      <div className="lg:w-1/4 w-full lg:h-auto h-fit bg-white rounded-lg shadow-sm">
+      <div className="lg:w-1/4 w-full lg:h-auto h-fit bg-card rounded-lg shadow-sm">
         <div className="p-4">
           <Button
             onClick={() => navigate(-1)}
             variant="ghost"
-            className="flex gap-2 w-full hover:bg-gray-100"
+            className="flex gap-2 w-full hover:bg-muted"
           >
             <i className="fa-solid fa-arrow-left"></i> Back to Course
           </Button>
@@ -56,7 +56,7 @@ export default function StudentCourseEnrollDetailesPage() {
         <div className="border-t">
           <ScrollArea className="h-[calc(100vh-180px)]">
             <div className="p-4">
-              <h4 className="mb-4 text-lg font-semibold text-gray-900">
+              <h4 className="mb-4 text-lg font-semibold text-foreground">
                 Course Content
               </h4>
               {courseData?.files &&
@@ -69,8 +69,8 @@ export default function StudentCourseEnrollDetailesPage() {
                       transition-colors duration-200
                       ${
                         value && value - 1 === index
-                          ? "bg-blue-50 text-blue-600"
-                          : "text-gray-600 hover:bg-gray-50"
+                          ? "bg-primary/10 text-primary"
+                          : "text-muted-foreground hover:bg-muted"
                       }
                     `}
                   >
@@ -90,18 +90,18 @@ export default function StudentCourseEnrollDetailesPage() {
       </div>
 
       {/* Video Player Section */}
-      <div className="lg:w-3/4 w-full bg-white shadow-sm rounded-lg">
+      <div className="lg:w-3/4 w-full bg-card shadow-sm rounded-lg">
         {courseData?.files &&
           courseData.files
             .filter((_, index) => index + 1 === value)
             .map((data) => (
               <div key={data.title} className="w-full h-full p-6">
                 <div className="mb-6">
-                  <h1 className="text-2xl font-semibold text-gray-900">
+                  <h1 className="text-2xl font-semibold text-foreground">
                     {data.title}
                   </h1>
                 </div>
-                <div className="w-full aspect-video rounded-lg overflow-hidden bg-gray-100">
+                <div className="w-full aspect-video rounded-lg overflow-hidden bg-muted">
                   {videoLoad ? (
                     <div className="h-full flex justify-center items-center">
                       <BookLoader />

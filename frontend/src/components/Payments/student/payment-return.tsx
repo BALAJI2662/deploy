@@ -61,11 +61,11 @@ export default function StudentPaymentReturn() {
         <div className="w-full h-full flex flex-col justify-center items-center">
             <div className="-mt-16">
                 {error ? (
-                    <div className="text-red-500 font-bold text-center">
+                    <div className="text-destructive font-bold text-center">
                         <p>{error}</p>
                         <button 
                             onClick={() => navigate("/student/mycourses")}
-                            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                            className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90"
                         >
                             Go to My Courses
                         </button>

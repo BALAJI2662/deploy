@@ -80,25 +80,25 @@ export default function AdminInstructors() {
                 icon: <Users className="h-4 w-4" />,
                 value: data.length,
                 label: "Total Instructors",
-                color: "text-blue-600"
+                color: "text-primary"
             },
             {
                 icon: <BookOpen className="h-4 w-4" />,
                 value: data.reduce((acc, instructor) => acc + instructor.courseId.length, 0),
                 label: "Total Courses",
-                color: "text-green-600"
+                color: "text-success"
             },
             {
                 icon: <GraduationCap className="h-4 w-4" />,
                 value: data.filter(instructor => instructor.courseId.length > 0).length,
                 label: "Active Instructors",
-                color: "text-purple-600"
+                color: "text-info"
             },
             {
                 icon: <Trophy className="h-4 w-4" />,
                 value: Math.round(data.reduce((acc, instructor) => acc + instructor.courseId.length, 0) / (data.length || 1)),
                 label: "Avg Courses/Instructor",
-                color: "text-orange-600"
+                color: "text-warning"
             }
         ];
     }, [data]);
@@ -121,8 +121,8 @@ export default function AdminInstructors() {
     if (error) {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen gap-4">
-                <div className="text-red-500 text-xl font-semibold">Error loading instructors</div>
-                <p className="text-gray-600">{error}</p>
+                <div className="text-destructive text-xl font-semibold">Error loading instructors</div>
+                <p className="text-muted-foreground">{error}</p>
                 <Button 
                     variant="outline"
                     onClick={() => {
@@ -142,15 +142,15 @@ export default function AdminInstructors() {
                 <Card className="overflow-hidden border bg-primary/5 shadow-sm text-foreground">
                     <CardContent className="p-8 flex items-center gap-6">
                         <div className="flex-shrink-0">
-                            <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
-                                <GraduationCap className="h-8 w-8 text-white" />
+                            <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center backdrop-blur-sm">
+                                <GraduationCap className="h-8 w-8 text-primary" />
                             </div>
                         </div>
-                        <div className="text-white">
+                        <div className="text-foreground">
                             <h1 className="text-2xl md:text-3xl font-bold mb-2">
                                 Instructor Management
                             </h1>
-                            <p className="text-white/90 text-lg">
+                            <p className="text-muted-foreground text-lg">
                                 Manage and monitor all instructors in the platform
                             </p>
                         </div>
@@ -160,12 +160,12 @@ export default function AdminInstructors() {
                 {/* Header & Search */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
-                        <h2 className="text-3xl font-bold text-gray-900 mb-2">All Instructors</h2>
-                        <p className="text-gray-600">Manage {data.length} registered instructors</p>
+                        <h2 className="text-3xl font-bold text-foreground mb-2">All Instructors</h2>
+                        <p className="text-muted-foreground">Manage {data.length} registered instructors</p>
                     </div>
                     
                     <div className="relative w-full md:w-80">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                         <Input
                         disabled
                             placeholder="Search by name, email, college..."
@@ -184,8 +184,8 @@ export default function AdminInstructors() {
                                 {stat.icon}
                             </div>
                             <div>
-                                <p className="text-lg font-semibold text-gray-900">{stat.value}</p>
-                                <p className="text-sm text-gray-500">{stat.label}</p>
+                                <p className="text-lg font-semibold text-foreground">{stat.value}</p>
+                                <p className="text-sm text-muted-foreground">{stat.label}</p>
                             </div>
                         </Card>
                     ))}
@@ -197,8 +197,8 @@ export default function AdminInstructors() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {filteredInstructors.length === 0 ? (
                         <div className="col-span-full text-center py-12">
-                            <div className="text-gray-400 text-lg mb-2">No instructors found</div>
-                            <p className="text-gray-500">Try adjusting your search terms</p>
+                            <div className="text-muted-foreground text-lg mb-2">No instructors found</div>
+                            <p className="text-muted-foreground">Try adjusting your search terms</p>
                         </div>
                     ) : (
                         filteredInstructors.map((instructor) => (
@@ -207,7 +207,7 @@ export default function AdminInstructors() {
                                 className="group cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:border-primary/30"
                             >
                                 <CardContent className="p-6">
-                                    <div className="flex items-center gap-4 mb-4">                                        <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-200">
+                                    <div className="flex items-center gap-4 mb-4">                                        <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-border">
                                             <img 
                                                 src={instructor.profileImg} 
                                                 alt={instructor.name}
@@ -219,15 +219,15 @@ export default function AdminInstructors() {
                                             />
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <h3 className="font-semibold text-gray-900 truncate">
+                                            <h3 className="font-semibold text-foreground truncate">
                                                 {instructor.name}
                                             </h3>
-                                            <p className="text-sm text-gray-500 truncate">
+                                            <p className="text-sm text-muted-foreground truncate">
                                                 {instructor.email}
                                             </p>
                                             <Badge 
                                                 variant="secondary" 
-                                                className="mt-1 bg-blue-100 text-blue-700 hover:bg-blue-200"
+                                                className="mt-1 bg-primary/10 text-primary hover:bg-primary/20"
                                             >
                                                 {instructor.branch}
                                             </Badge>
@@ -236,16 +236,16 @@ export default function AdminInstructors() {
 
                                     <div className="space-y-2 mb-4">
                                         <div className="flex items-center justify-between text-sm">
-                                            <span className="text-gray-500">Roll Number:</span>
-                                            <span className="font-medium text-gray-900">{instructor.rollNumber}</span>
+                                            <span className="text-muted-foreground">Roll Number:</span>
+                                            <span className="font-medium text-foreground">{instructor.rollNumber}</span>
                                         </div>
                                         <div className="flex items-center justify-between text-sm">
-                                            <span className="text-gray-500">Courses:</span>
-                                            <span className="font-medium text-gray-900">{instructor.courseId.length}</span>
+                                            <span className="text-muted-foreground">Courses:</span>
+                                            <span className="font-medium text-foreground">{instructor.courseId.length}</span>
                                         </div>
                                         <div className="flex items-center justify-between text-sm">
-                                            <span className="text-gray-500">College:</span>
-                                            <span className="font-medium text-gray-900 truncate ml-2">{instructor.college}</span>
+                                            <span className="text-muted-foreground">College:</span>
+                                            <span className="font-medium text-foreground truncate ml-2">{instructor.college}</span>
                                         </div>
                                     </div>
 
@@ -259,9 +259,9 @@ export default function AdminInstructors() {
                                                                 href={instructor.gitHub}
                                                                 target="_blank"
                                                                 rel="noopener noreferrer"
-                                                                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                                                                className="p-2 rounded-full hover:bg-muted transition-colors"
                                                             >
-                                                                <Github className="h-4 w-4 text-gray-600" />
+                                                                <Github className="h-4 w-4 text-muted-foreground" />
                                                             </a>
                                                         </TooltipTrigger>
                                                         <TooltipContent>
@@ -276,9 +276,9 @@ export default function AdminInstructors() {
                                                                 href={instructor.linkedIn}
                                                                 target="_blank"
                                                                 rel="noopener noreferrer"
-                                                                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                                                                className="p-2 rounded-full hover:bg-muted transition-colors"
                                                             >
-                                                                <Linkedin className="h-4 w-4 text-gray-600" />
+                                                                <Linkedin className="h-4 w-4 text-muted-foreground" />
                                                             </a>
                                                         </TooltipTrigger>
                                                         <TooltipContent>

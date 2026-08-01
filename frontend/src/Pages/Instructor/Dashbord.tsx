@@ -89,8 +89,8 @@ export default function InstructorDashboard() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-red-600 mb-4">Error</h2>
-          <p className="text-slate-600 mb-4">{error}</p>
+          <h2 className="text-2xl font-bold text-destructive mb-4">Error</h2>
+          <p className="text-muted-foreground mb-4">{error}</p>
           <Button 
             onClick={() => dispatch(FetchInstructorCourses())}
           >

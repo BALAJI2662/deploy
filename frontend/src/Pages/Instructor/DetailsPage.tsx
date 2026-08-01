@@ -76,20 +76,20 @@ export default function InstructorCourseEnrollDetailesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 lg:p-6">
+    <div className="min-h-screen bg-background p-4 lg:p-6">
       <div className="max-w-7xl mx-auto">
         <div className="mb-6 flex items-center justify-between">
           <Button
             onClick={() => navigate(-1)}
             variant="outline"
-            className="flex items-center gap-2 bg-white hover:bg-primary hover:text-white transition-colors duration-200"
+            className="flex items-center gap-2 bg-card hover:bg-primary hover:text-primary-foreground transition-colors duration-200"
           >
             <i className="fa-solid fa-arrow-left text-sm"></i>
             <span className="font-medium">Back</span>
           </Button>
 
           <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-600">
+            <span className="text-sm text-muted-foreground">
               Total Students: {loading ? "..." : students.length}
             </span>
           </div>
@@ -97,12 +97,12 @@ export default function InstructorCourseEnrollDetailesPage() {
 
         {/* Course Title and Info */}
         {courseData && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6 mb-6">
+            <h1 className="text-2xl font-bold text-foreground mb-2">
               {courseData.title}
             </h1>
-            <div className="flex items-center gap-4 text-sm text-gray-600">
-              <Badge variant="secondary" className="bg-blue-100 text-blue-700">
+            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+              <Badge variant="secondary" className="bg-primary/10 text-primary">
                 {courseData.category}
               </Badge>
               <span className="flex items-center gap-1">
@@ -121,13 +121,13 @@ export default function InstructorCourseEnrollDetailesPage() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-[calc(100vh-240px)]">
           {/* Course Videos Sidebar */}
           <div className="lg:col-span-1 order-2 lg:order-1">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 h-full flex flex-col">
-              <div className="p-4 border-b border-gray-100">
-                <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+            <div className="bg-card rounded-xl shadow-sm border border-border h-full flex flex-col">
+              <div className="p-4 border-b border-border">
+                <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                   <i className="fa-solid fa-list-ul text-primary text-sm"></i>
                   Course Content
                 </h2>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-muted-foreground mt-1">
                   {courseData?.files?.length || 0} items
                 </p>
               </div>
@@ -150,8 +150,8 @@ export default function InstructorCourseEnrollDetailesPage() {
                       <div className={`
                         flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center
                         ${value && value - 1 === index
-                          ? "bg-primary text-white"
-                          : "bg-gray-100 text-gray-400 group-hover:bg-primary/20 group-hover:text-primary"
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-muted text-muted-foreground group-hover:bg-primary/20 group-hover:text-primary"
                         }
                       `}>
                         <i className={`fa-solid ${data.resourceType === "pdf" ? "fa-file-pdf" : data.resourceType === "image" ? "fa-image" : value && value - 1 === index ? "fa-pause" : "fa-play"} text-xs`}></i>
@@ -162,13 +162,13 @@ export default function InstructorCourseEnrollDetailesPage() {
                           text-sm font-medium truncate
                           ${value && value - 1 === index
                             ? "text-primary"
-                            : "text-gray-700 group-hover:text-gray-900"
+                            : "text-foreground group-hover:text-foreground"
                           }
                         `}>
                           {data.title}
                         </p>
                         {data.freePreview && (
-                          <span className="text-xs text-green-600">Free Preview</span>
+                          <span className="text-xs text-success">Free Preview</span>
                         )}
                       </div>
                     </div>
@@ -180,17 +180,17 @@ export default function InstructorCourseEnrollDetailesPage() {
 
           {/* Resource viewer */}
           <div className="lg:col-span-3 order-1 lg:order-2 self-start">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col">
+            <div className="bg-card rounded-xl shadow-sm border border-border flex flex-col">
               {courseData?.files
                 ?.filter((_, index) => index + 1 === value)
                 .map((data) => (
                   <div key={data.title} className="flex flex-col">
-                    <div className="p-4 border-b border-gray-100">
-                      <h3 className="text-lg font-semibold text-gray-900">
+                    <div className="p-4 border-b border-border">
+                      <h3 className="text-lg font-semibold text-foreground">
                         {data.title}
                       </h3>
                       {data.freePreview && (
-                        <Badge className="mt-2 bg-green-100 text-green-700">
+                        <Badge className="mt-2 bg-success/15 text-success">
                           Free Preview
                         </Badge>
                       )}
@@ -202,9 +202,9 @@ export default function InstructorCourseEnrollDetailesPage() {
                           <BookLoader />
                         </div>
                       ) : (
-                        <div className="relative h-[clamp(20rem,55vh,34rem)] rounded-lg overflow-hidden bg-black/5">
+                        <div className="relative h-[clamp(20rem,55vh,34rem)] rounded-lg overflow-hidden bg-muted">
                           {data.resourceType === "pdf" ? (
-                            <div className="h-full bg-white p-3">
+                            <div className="h-full bg-card p-3">
                               <iframe
                                 title={data.title}
                                 src={`${data.resourceUrl || data.videoUrl}#toolbar=0&navpanes=0`}
@@ -212,7 +212,7 @@ export default function InstructorCourseEnrollDetailesPage() {
                               />
                             </div>
                           ) : data.resourceType === "image" ? (
-                            <div className="flex h-full items-center justify-center bg-white p-4">
+                            <div className="flex h-full items-center justify-center bg-card p-4">
                               <img
                                 src={data.resourceUrl || data.videoUrl}
                                 alt={data.title}

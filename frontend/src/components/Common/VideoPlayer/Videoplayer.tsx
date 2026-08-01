@@ -133,7 +133,7 @@ export default function Videoplayer({ width = "100%", height = "100%", videoUrl,
             />
             {
                 showControles &&
-                <div className={`absolute bottom-0 left-0 right-0 bg-gray-800 bg-opacity-70 p-4 transition-opacity duration-300 
+                <div className={`absolute bottom-0 left-0 right-0 bg-black/70 p-4 transition-opacity duration-300 
                     ${showControles ? "opacity-100" : "opacity-0"}`}
                 >
                     <Slider
@@ -152,14 +152,14 @@ export default function Videoplayer({ width = "100%", height = "100%", videoUrl,
                                 }
                             </Button>
                             <div className='flex gap-3 max-sm:gap-0'>
-                                <Button variant="ghost" size='icon' onClick={handleRewind} className='text-white hover:bg-gray-400'>
+                                <Button variant="ghost" size='icon' onClick={handleRewind} className='text-white hover:bg-card/20'>
                                     <i className="fa-solid fa-backward"></i>
                                 </Button>
-                                <Button variant="ghost" size='icon' onClick={handleForward} className='text-white hover:bg-gray-400'>
+                                <Button variant="ghost" size='icon' onClick={handleForward} className='text-white hover:bg-card/20'>
                                     <i className="fa-solid fa-forward"></i>
                                 </Button>
                             </div>
-                            <Button variant="ghost" size='icon' onClick={handleMute} className='text-white bg-transparent hover:bg-gray-400'>
+                            <Button variant="ghost" size='icon' onClick={handleMute} className='text-white bg-transparent hover:bg-card/20'>
                                 {
                                     muted ? <i className="fa-solid fa-volume-xmark"></i> : <i className="fa-solid fa-volume-high"></i>
                                 }
@@ -175,7 +175,7 @@ export default function Videoplayer({ width = "100%", height = "100%", videoUrl,
                                     formatTime(playerRef.current?.getDuration() || 0)
                                 }
                             </div>
-                            <Button variant="ghost" size='icon' onClick={handleFullScreen} className='text-white bg-transparent hover:bg-gray-400'>
+                            <Button variant="ghost" size='icon' onClick={handleFullScreen} className='text-white bg-transparent hover:bg-card/20'>
                                 {
                                     isFullScreen ? <i className="fa-solid fa-compress"></i> : <i className="fa-solid fa-expand"></i>
                                 }

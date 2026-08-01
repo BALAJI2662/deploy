@@ -83,50 +83,50 @@ export default function InstructorDetails() {
 
     const stats = [
         {
-            icon: <DollarSign className="h-5 w-5 text-green-600" />,
+            icon: <DollarSign className="h-5 w-5 text-success" />,
             value: `₹${totalAmount.toFixed(2)}`,
             label: "Total Earnings",
-            color: "bg-green-100",
-            textColor: "text-green-700"
+            color: "bg-success/15",
+            textColor: "text-success"
         },
         {
-            icon: <BookOpen className="h-5 w-5 text-blue-600" />,
+            icon: <BookOpen className="h-5 w-5 text-primary" />,
             value: instructor?.courseId.length || 0,
             label: "Total Courses",
-            color: "bg-blue-100",
-            textColor: "text-blue-700"
+            color: "bg-primary/10",
+            textColor: "text-primary"
         },
         {
-            icon: <Users className="h-5 w-5 text-purple-600" />,
+            icon: <Users className="h-5 w-5 text-info" />,
             value: earningData.length,
             label: "Total Orders",
-            color: "bg-purple-100",
-            textColor: "text-purple-700"
+            color: "bg-info/15",
+            textColor: "text-info"
         },
         {
-            icon: <TrendingUp className="h-5 w-5 text-orange-600" />,
+            icon: <TrendingUp className="h-5 w-5 text-warning" />,
             value: `₹${(totalAmount / (earningData.length || 1)).toFixed(2)}`,
             label: "Avg. Order Value",
-            color: "bg-orange-100",
-            textColor: "text-orange-700"
+            color: "bg-warning/15",
+            textColor: "text-warning"
         }
     ];
 
     const orderStatusColors = {
-        Pending: "bg-yellow-100 text-yellow-800",
-        Approval: "bg-green-100 text-green-800",
-        Rejected: "bg-red-100 text-red-800"
+        Pending: "bg-warning/15 text-warning",
+        Approval: "bg-success/15 text-success",
+        Rejected: "bg-destructive/15 text-destructive"
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 md:p-6">
+        <div className="min-h-screen bg-background p-4 md:p-6">
             <div className="max-w-7xl mx-auto space-y-6">
                 {/* Instructor Profile */}
                 {instructor && (
                     <Card className="border-0 shadow-xl">
                         <CardContent className="p-6">
                             <div className="flex items-center gap-6">
-                                <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg">
+                                <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-card shadow-lg">
                                     <img 
                                         src={instructor.profileImg} 
                                         alt={instructor.name}
@@ -134,13 +134,13 @@ export default function InstructorDetails() {
                                     />
                                 </div>
                                 <div>
-                                    <h1 className="text-2xl font-bold text-gray-900">{instructor.name}</h1>
-                                    <p className="text-gray-500">{instructor.email}</p>
+                                    <h1 className="text-2xl font-bold text-foreground">{instructor.name}</h1>
+                                    <p className="text-muted-foreground">{instructor.email}</p>
                                     <div className="flex gap-2 mt-2">
-                                        <Badge variant="secondary" className="bg-blue-100 text-blue-700">
+                                        <Badge variant="secondary" className="bg-primary/10 text-primary">
                                             {instructor.branch}
                                         </Badge>
-                                        <Badge variant="secondary" className="bg-purple-100 text-purple-700">
+                                        <Badge variant="secondary" className="bg-info/15 text-info">
                                             {instructor.rollNumber}
                                         </Badge>
                                     </div>
@@ -163,7 +163,7 @@ export default function InstructorDetails() {
                                         <p className={`text-2xl font-bold ${stat.textColor}`}>
                                             {stat.value}
                                         </p>
-                                        <p className="text-sm text-gray-500">{stat.label}</p>
+                                        <p className="text-sm text-muted-foreground">{stat.label}</p>
                                     </div>
                                 </div>
                             </CardContent>
@@ -177,14 +177,14 @@ export default function InstructorDetails() {
                         <div className="flex flex-col gap-4">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <h2 className="text-xl font-bold text-gray-900">Earnings History</h2>
-                                    <p className="text-sm text-gray-500">Detailed view of all transactions</p>
+                                    <h2 className="text-xl font-bold text-foreground">Earnings History</h2>
+                                    <p className="text-sm text-muted-foreground">Detailed view of all transactions</p>
                                 </div>
-                                <BarChart className="h-5 w-5 text-gray-400" />
+                                <BarChart className="h-5 w-5 text-muted-foreground" />
                             </div>
 
                             <div className="relative">
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
+                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                 <Input
                                     placeholder="Search by course, student email, or status..."
                                     value={searchQuery}

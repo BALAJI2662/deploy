@@ -211,7 +211,7 @@ const AddCourse = () => {
                         <div className="space-y-4">
                             {courseSchemaFields.map((field, index) => (
                                 <div key={field.label + index}>
-                                    <label className="text-sm font-medium text-gray-700 mb-1 block">
+                                    <label className="text-sm font-medium text-foreground mb-1 block">
                                         {field.label}
                                     </label>
                                     
@@ -221,7 +221,7 @@ const AddCourse = () => {
                                             name={field.name}
                                             type={field.type}
                                             placeholder={field.label}
-                                            className="border-gray-200"
+                                            className="border-border"
                                         />
                                     ) : null}
 
@@ -231,7 +231,7 @@ const AddCourse = () => {
                                             name={field.name}
                                             placeholder={field.label}
                                             rows={4}
-                                            className="border-gray-200"
+                                            className="border-border"
                                         />
                                     ) : null}
 
@@ -242,7 +242,7 @@ const AddCourse = () => {
                                                 name={field.name}
                                                 placeholder={field.label}
                                                 onChange={(e) => handleThumbnailChange(e.target.files?.[0] ?? null)}
-                                                className="border-gray-200"
+                                                className="border-border"
                                             />
                                             {formData.thumbnail && (
                                                 <img 
@@ -260,7 +260,7 @@ const AddCourse = () => {
                                                 setFormData((data) => ({ ...data, [field.name]: value }))
                                             }
                                         >
-                                            <SelectTrigger className="w-full border-gray-200">
+                                            <SelectTrigger className="w-full border-border">
                                                 <SelectValue placeholder={field.label} />
                                             </SelectTrigger>
                                             <SelectContent>
@@ -350,7 +350,7 @@ const AddCourse = () => {
                                                 handleInputChange(section.id, "freePreview", Boolean(checked))
                                             }
                                         />
-                                        <label className="text-sm text-gray-600">
+                                        <label className="text-sm text-muted-foreground">
                                             Free preview
                                         </label>
                                     </div>
@@ -358,7 +358,7 @@ const AddCourse = () => {
                             ))}
                             
                             <Button 
-                                className="w-full bg-blue-600 hover:bg-blue-700"
+                                className="w-full bg-primary hover:bg-primary"
                                 type="button" 
                                 onClick={addSection}
                             >
@@ -374,7 +374,7 @@ const AddCourse = () => {
                         disabled={!isFormValid()} 
                         className={`w-full py-2 ${
                             isFormValid() 
-                                ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700' 
+                                ? 'bg-primary hover:bg-primary/90' 
                                 : 'opacity-50 cursor-not-allowed'
                         }`}
                     >

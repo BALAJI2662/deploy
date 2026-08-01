@@ -13,9 +13,9 @@ export default function UserInfo() {
                         <p className="font-bold mt-2">CMS</p>
                     </div>
                     <TabsList className="flex flex-row lg:flex-col w-full h-fit mt-4 lg:mt-24 gap-2 lg:gap-4">
-                        <TabsTrigger className="p-2 md:p-3 w-full bg-neutral-200 text-sm md:text-base" value="student">Student</TabsTrigger>
-                        <TabsTrigger className="p-2 md:p-3 w-full bg-neutral-200 text-sm md:text-base" value="lead">Lead</TabsTrigger>
-                        <TabsTrigger className="p-2 md:p-3 w-full bg-neutral-200 text-sm md:text-base" value="instructor">Instructor</TabsTrigger>
+                        <TabsTrigger className="p-2 md:p-3 w-full bg-background text-sm md:text-base" value="student">Student</TabsTrigger>
+                        <TabsTrigger className="p-2 md:p-3 w-full bg-background text-sm md:text-base" value="lead">Lead</TabsTrigger>
+                        <TabsTrigger className="p-2 md:p-3 w-full bg-background text-sm md:text-base" value="instructor">Instructor</TabsTrigger>
                     </TabsList>
                 </div>
                 <div className="w-full lg:w-[78%] bg-muted rounded-xl mt-4 lg:mt-0">

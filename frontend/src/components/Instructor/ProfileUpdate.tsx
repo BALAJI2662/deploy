@@ -108,12 +108,12 @@ export default function InstructorProfileUpdate() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 lg:p-6">
+    <div className="min-h-screen bg-background p-4 lg:p-6">
       <div className="max-w-4xl mx-auto">
         <Button 
           onClick={() => navigate(-1)} 
           variant="outline" 
-          className="mb-6 flex items-center gap-2 bg-white hover:bg-primary hover:text-white transition-colors duration-200"
+          className="mb-6 flex items-center gap-2 bg-card hover:bg-primary hover:text-primary-foreground transition-colors duration-200"
         >
           <i className="fa-solid fa-arrow-left text-sm"></i>
           <span className="font-medium">Back</span>
@@ -136,7 +136,7 @@ export default function InstructorProfileUpdate() {
                     name="linkedIn"
                     id="linkedIn"
                     placeholder="https://linkedin.com/in/..."
-                    className="bg-white"
+                    className="bg-card"
                     value={formData.linkedIn}
                     onChange={handleInputChange}
                   />
@@ -148,7 +148,7 @@ export default function InstructorProfileUpdate() {
                     name="gitHub"
                     id="gitHub"
                     placeholder="https://github.com/..."
-                    className="bg-white"
+                    className="bg-card"
                     value={formData.gitHub}
                     onChange={handleInputChange}
                   />
@@ -162,7 +162,7 @@ export default function InstructorProfileUpdate() {
                     minLength={10}
                     maxLength={10}
                     placeholder="Enter your roll number"
-                    className="bg-white"
+                    className="bg-card"
                     value={formData.rollNumber}
                     onChange={handleInputChange}
                   />
@@ -174,7 +174,7 @@ export default function InstructorProfileUpdate() {
                     name="gender"
                     onValueChange={(value) => handleSelectChange("gender", value)}
                   >
-                    <SelectTrigger id="gender" className="bg-white">
+                    <SelectTrigger id="gender" className="bg-card">
                       <SelectValue placeholder="Select gender" />
                     </SelectTrigger>
                     <SelectContent>
@@ -191,7 +191,7 @@ export default function InstructorProfileUpdate() {
                     name="college"
                     id="college"
                     placeholder="Enter your college name"
-                    className="bg-white"
+                    className="bg-card"
                     value={formData.college}
                     onChange={handleInputChange}
                   />
@@ -203,7 +203,7 @@ export default function InstructorProfileUpdate() {
                     name="branch"
                     onValueChange={(value) => handleSelectChange("branch", value)}
                   >
-                    <SelectTrigger id="branch" className="bg-white">
+                    <SelectTrigger id="branch" className="bg-card">
                       <SelectValue placeholder="Select branch" />
                     </SelectTrigger>
                     <SelectContent>
@@ -222,7 +222,7 @@ export default function InstructorProfileUpdate() {
                     id="UPI"
                     name="UPI"
                     placeholder="Enter your UPI ID"
-                    className="bg-white"
+                    className="bg-card"
                     value={formData.UPI}
                     onChange={handleInputChange}
                   />

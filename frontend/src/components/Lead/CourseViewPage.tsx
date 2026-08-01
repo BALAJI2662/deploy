@@ -77,12 +77,12 @@ export default function LeadCourseDetailesView() {
                 :
                 <div className="w-full h-[94%]">
                     <div className="w-full h-full grid grid-cols-3 overflow-y-scroll gap-5 max-sm:grid-cols-1">
-                        <div className="w-full h-fit bg-black dark:bg-background text-background dark:text-white border shadow-md px-5 py-4 rounded-lg col-span-3 max-sm:col-span-2">
+                        <div className="w-full h-fit bg-foreground text-background border shadow-md px-5 py-4 rounded-lg col-span-3 max-sm:col-span-2">
                             <p className="font-bold text-xl">{courseInfo.title}</p>
-                            <p className="mt-4 text-gray-400 text-sm">{courseInfo?.subtitle}</p>
+                            <p className="mt-4 text-muted-foreground text-sm">{courseInfo?.subtitle}</p>
                             <div className="mt-4 flex gap-8 font-semibold">
-                                <p className=" text-sm text-gray-400">created by {courseInfo?.instructor.name}</p>
-                                <p className="text-sm text-gray-400">created on  {courseInfo?.updatedAt
+                                <p className=" text-sm text-muted-foreground">created by {courseInfo?.instructor.name}</p>
+                                <p className="text-sm text-muted-foreground">created on  {courseInfo?.updatedAt
                                     ? new Date(courseInfo.updatedAt).toLocaleDateString("en-US", {
                                         year: "numeric",
                                         month: "short",
@@ -93,8 +93,8 @@ export default function LeadCourseDetailesView() {
                                         month: "short",
                                         day: "numeric",
                                     })}</p>
-                                <p className="text-sm text-gray-400">students : {courseInfo.students.length}</p>
-                                <p className="text-sm text-gray-400">leads : {courseInfo.leads.length}</p>
+                                <p className="text-sm text-muted-foreground">students : {courseInfo.students.length}</p>
+                                <p className="text-sm text-muted-foreground">leads : {courseInfo.leads.length}</p>
                             </div>
                         </div>
 
@@ -137,13 +137,13 @@ export default function LeadCourseDetailesView() {
                                                         <DialogTrigger asChild>
                                                             <div className="flex items-center gap-3 mt-1">
                                                                 <i className="fa-regular fa-circle-play"></i>
-                                                                <p className="text-gray-600">{video.title}</p>
+                                                                <p className="text-muted-foreground">{video.title}</p>
                                                             </div>
                                                         </DialogTrigger>
                                                     ) : (
                                                         <div className="flex items-center gap-3 mt-1">
                                                             <i className="fa-solid fa-lock"></i>
-                                                            <p className="text-gray-500">{video.title}</p>
+                                                            <p className="text-muted-foreground">{video.title}</p>
                                                         </div>
                                                     )}
                                                     <DialogContent>

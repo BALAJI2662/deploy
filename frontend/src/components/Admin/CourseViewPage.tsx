@@ -98,7 +98,7 @@ export default function AdminCourseDetailesView() {
     if (error) {
         return (
             <div className="w-full h-full flex flex-col items-center justify-center gap-4 p-4">
-                <p className="text-red-500">{error}</p>
+                <p className="text-destructive">{error}</p>
                 <Button onClick={() => FetchCourseInfo()}>Retry</Button>
             </div>
         )
@@ -125,17 +125,17 @@ export default function AdminCourseDetailesView() {
                 </Button>
                 <Button
                     variant='outline'
-                    className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                    className="text-destructive hover:text-destructive hover:bg-destructive/10"
                     onClick={() => handleDelete(courseInfo._id)}
                 >
                     Delete Course
                 </Button>
             </div>
 
-            <div className="w-full bg-white rounded-lg shadow-sm p-6">
-                <h1 className="text-2xl font-semibold text-gray-900">{courseInfo.title}</h1>
-                <p className="mt-2 text-gray-600">{courseInfo.subtitle}</p>
-                <div className="mt-4 flex flex-wrap gap-4 text-sm text-gray-500">
+            <div className="w-full bg-card rounded-lg shadow-sm p-6">
+                <h1 className="text-2xl font-semibold text-foreground">{courseInfo.title}</h1>
+                <p className="mt-2 text-muted-foreground">{courseInfo.subtitle}</p>
+                <div className="mt-4 flex flex-wrap gap-4 text-sm text-muted-foreground">
                     <p>Instructor: {courseInfo.instructor.name}</p>
                     <p>Updated: {courseInfo.updatedAt
                         ? new Date(courseInfo.updatedAt).toLocaleDateString("en-US", {
@@ -156,17 +156,17 @@ export default function AdminCourseDetailesView() {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2 space-y-6">
-                    <div className="bg-white rounded-lg shadow-sm p-6">
+                    <div className="bg-card rounded-lg shadow-sm p-6">
                         <h2 className="text-lg font-semibold mb-4">Course Description</h2>
-                        <p className="text-gray-600">{courseInfo.description}</p>
+                        <p className="text-muted-foreground">{courseInfo.description}</p>
                     </div>
 
-                    <div className="bg-white rounded-lg shadow-sm p-6">
+                    <div className="bg-card rounded-lg shadow-sm p-6">
                         <h2 className="text-lg font-semibold mb-4">What you'll learn</h2>
                         <ul className="space-y-2">
                             {courseInfo.objectives.split(',').map((objective, index) => (
-                                <li key={index} className="flex gap-2 text-gray-600">
-                                    <i className="fa-solid fa-check text-green-500 mt-1"></i>
+                                <li key={index} className="flex gap-2 text-muted-foreground">
+                                    <i className="fa-solid fa-check text-success mt-1"></i>
                                     <span>{objective.trim()}</span>
                                 </li>
                             ))}
@@ -175,7 +175,7 @@ export default function AdminCourseDetailesView() {
                 </div>
 
                 <div className="lg:col-span-1">
-                    <div className="bg-white rounded-lg shadow-sm p-6 sticky top-4">
+                    <div className="bg-card rounded-lg shadow-sm p-6 sticky top-4">
                         <div className="aspect-video mb-4">
                             <Videoplayer
                                 width="100%"
@@ -186,7 +186,7 @@ export default function AdminCourseDetailesView() {
                         </div>
                         <p className="text-2xl font-bold mb-4">₹ {courseInfo.price}</p>
                         <Button
-                            className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
                             onClick={() => navigate(`/Admin/courses/coureview/${courseInfo._id}`)}
                         >
                             View Course Content
@@ -195,23 +195,23 @@ export default function AdminCourseDetailesView() {
                 </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow-sm p-6">
+            <div className="bg-card rounded-lg shadow-sm p-6">
                 <h2 className="text-lg font-semibold mb-4">Course Curriculum</h2>
                 <div className="space-y-2">
                     {courseInfo.files.map((video, index) => (
                         <Dialog key={index} open={open} onOpenChange={setOpen}>
-                            <div className="border rounded-lg p-3 hover:bg-gray-50 transition-colors">
+                            <div className="border rounded-lg p-3 hover:bg-muted transition-colors">
                                 {video.freePreview ? (
                                     <DialogTrigger asChild>
                                         <div className="flex items-center gap-3 cursor-pointer">
-                                            <i className="fa-regular fa-circle-play text-blue-500"></i>
-                                            <p className="text-gray-700">{video.title}</p>
+                                            <i className="fa-regular fa-circle-play text-primary"></i>
+                                            <p className="text-foreground">{video.title}</p>
                                         </div>
                                     </DialogTrigger>
                                 ) : (
                                     <div className="flex items-center gap-3">
-                                        <i className="fa-solid fa-lock text-gray-400"></i>
-                                        <p className="text-gray-500">{video.title}</p>
+                                        <i className="fa-solid fa-lock text-muted-foreground"></i>
+                                        <p className="text-muted-foreground">{video.title}</p>
                                     </div>
                                 )}
                                 <DialogContent className="sm:max-w-[600px]">

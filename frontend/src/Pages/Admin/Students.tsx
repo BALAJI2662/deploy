@@ -15,7 +15,7 @@ export default function AdminStudents() {
             <div className="w-full h-[97%] pb-10 overflow-hidden overflow-y-scroll grid grid-cols-4 gap-5 ">
                 <div className="border-2 h-fit rounded-lg p-3 flex flex-col items-center gap-3">
                     <p className="text-center font-bold text-lg truncate">Bharani Rayudu</p>
-                    <div className="rounded-full bg-black w-[6rem] h-[6rem]">
+                    <div className="rounded-full bg-muted w-[6rem] h-[6rem]">
                         <img className="w-full h-full rounded-full" src="https://assets.leetcode.com/static_assets/public/webpack_bundles/images/LeetCode_new_logo_light.0f4d45e9c.svg" alt="" />
                     </div>
                     <p className="font-semibold text-primary/70 mt-3">Team - 5</p>

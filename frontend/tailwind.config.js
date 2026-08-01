@@ -1,3 +1,12 @@
+/**
+ * Theme tokens are full oklch colors (see src/index.css), not channel triplets.
+ * Wrapping them in color-mix keeps Tailwind's `/<opacity>` modifiers working —
+ * without it Tailwind cannot parse the value and silently drops utilities like
+ * `bg-primary/10`.
+ */
+const token = (name) =>
+    `color-mix(in oklab, var(${name}) calc(<alpha-value> * 100%), transparent)`;
+
 /** @type {import('tailwindcss').Config} */
 export default {
     darkMode: ["class"],
@@ -16,51 +25,68 @@ export default {
                 sm: 'calc(var(--radius) - 4px)'
             },
             colors: {
-                background: 'var(--background)',
-                foreground: 'var(--foreground)',
+                background: token('--background'),
+                foreground: token('--foreground'),
                 card: {
-                    DEFAULT: 'var(--card)',
-                    foreground: 'var(--card-foreground)'
+                    DEFAULT: token('--card'),
+                    foreground: token('--card-foreground')
                 },
                 popover: {
-                    DEFAULT: 'var(--popover)',
-                    foreground: 'var(--popover-foreground)'
+                    DEFAULT: token('--popover'),
+                    foreground: token('--popover-foreground')
                 },
                 primary: {
-                    DEFAULT: 'var(--primary)',
-                    foreground: 'var(--primary-foreground)'
+                    DEFAULT: token('--primary'),
+                    foreground: token('--primary-foreground')
                 },
                 secondary: {
-                    DEFAULT: 'var(--secondary)',
-                    foreground: 'var(--secondary-foreground)'
+                    DEFAULT: token('--secondary'),
+                    foreground: token('--secondary-foreground')
                 },
                 muted: {
-                    DEFAULT: 'var(--muted)',
-                    foreground: 'var(--muted-foreground)'
+                    DEFAULT: token('--muted'),
+                    foreground: token('--muted-foreground')
                 },
                 accent: {
-                    DEFAULT: 'var(--accent)',
-                    foreground: 'var(--accent-foreground)'
+                    DEFAULT: token('--accent'),
+                    foreground: token('--accent-foreground')
                 },
                 destructive: {
-                    DEFAULT: 'var(--destructive)',
-                    foreground: 'var(--destructive-foreground)'
+                    DEFAULT: token('--destructive'),
+                    foreground: token('--destructive-foreground')
                 },
-                border: 'var(--border)',
-                input: 'var(--input)',
-                ring: 'var(--ring)',
+                border: token('--border'),
+                input: token('--input'),
+                ring: token('--ring'),
                 sidebar: {
-                    DEFAULT: 'var(--sidebar)',
-                    foreground: 'var(--sidebar-foreground)',
-                    accent: 'var(--sidebar-accent)',
-                    muted: 'var(--sidebar-muted)'
+                    DEFAULT: token('--sidebar'),
+                    foreground: token('--sidebar-foreground'),
+                    primary: token('--sidebar-primary'),
+                    'primary-foreground': token('--sidebar-primary-foreground'),
+                    accent: token('--sidebar-accent'),
+                    'accent-foreground': token('--sidebar-accent-foreground'),
+                    border: token('--sidebar-border'),
+                    ring: token('--sidebar-ring'),
+                    muted: token('--sidebar-muted')
+                },
+                success: {
+                    DEFAULT: token('--success'),
+                    foreground: token('--success-foreground')
+                },
+                warning: {
+                    DEFAULT: token('--warning'),
+                    foreground: token('--warning-foreground')
+                },
+                info: {
+                    DEFAULT: token('--info'),
+                    foreground: token('--info-foreground')
                 },
                 chart: {
-                    '1': 'var(--chart-1)',
-                    '2': 'var(--chart-2)',
-                    '3': 'var(--chart-3)',
-                    '4': 'var(--chart-4)',
-                    '5': 'var(--chart-5)'
+                    '1': token('--chart-1'),
+                    '2': token('--chart-2'),
+                    '3': token('--chart-3'),
+                    '4': token('--chart-4'),
+                    '5': token('--chart-5')
                 }
             },
             keyframes: {
