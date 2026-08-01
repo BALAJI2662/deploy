@@ -23,9 +23,13 @@ const Instrctordetailes = require("./routes/admin/instructor-route")
 const InstructorWithdrawal = require("./routes/Instructor/withdrawal-route")
 const AdminWithdrawalRouter = require("./routes/admin/withdrawal-route")
 const { VerifyToken, authorizeRoles } = require('./Controllers/auth/Auth-controller');
+const { authRateLimiter, publicRateLimiter } = require('./Utils/lib/upstash');
+const { rateLimit, cachePublicCourses, warnWhenUpstashIsMissing } = require('./middleware/upstash');
 
 const app = express();
+app.set('trust proxy', 1);
 app.use(express.json())
+warnWhenUpstashIsMissing();
 
 app.use(cors({
     origin: ['http://localhost:5173',"http://localhost:4173" , "https://course-management-system-1-a96d.onrender.com" , "https://cms-bharani.vercel.app" , "https://cms4.vercel.app"], // or whatever port your Vite frontend runs on
@@ -38,13 +42,13 @@ app.get("/", (req, res) => {
 })
 
 // auth (public routes)
-app.use("/api/auth", authRouter)
+app.use("/api/auth", rateLimit(authRateLimiter, 'auth'), authRouter)
 
 // RBAC - role selection (requires auth)
 app.use('/api/check-verify', VerifyToken, RoleRouter)
 
 // All Courses (public)
-app.use("/courses", AllCourseRouter)
+app.use("/courses", rateLimit(publicRateLimiter, 'courses'), cachePublicCourses(300), AllCourseRouter)
 
 // instructor (requires auth + Instructor role)
 app.use('/instructor/course', VerifyToken, authorizeRoles("Instructor"), CourseRouter)

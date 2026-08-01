@@ -27,7 +27,7 @@ export default function ViewCourse() {
         FetchCourseInfo()
     }, [id])
 
-    const [selectedVideo, setSelectedVideo] = useState<{ title: string; videoUrl: string } | null>(null)
+    const [selectedResource, setSelectedResource] = useState<{ title: string; resourceUrl: string; resourceType: "video" | "pdf" | "image" } | null>(null)
 
     const handleDelete = async (id: string) => {
         const response = await fetch(`${API_BASE_URL}/admin/course/${id}`, {
@@ -133,15 +133,19 @@ export default function ViewCourse() {
                             <CardContent className="p-6">
                                 <h2 className="text-xl font-semibold mb-4">Course Curriculum</h2>
                                 <div className="space-y-2">
-                                    {courseInfo.files.map((video, index) => (
+                                    {courseInfo.files.map((resource, index) => (
                                         <div
                                             key={index}
                                             className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors duration-200"
-                                            onClick={() => setSelectedVideo({ title: video.title, videoUrl: video.videoUrl })}
+                                            onClick={() => setSelectedResource({
+                                                title: resource.title,
+                                                resourceUrl: resource.resourceUrl || resource.videoUrl,
+                                                resourceType: resource.resourceType || "video",
+                                            })}
                                         >
-                                            <i className="fa-regular fa-circle-play text-primary"></i>
-                                            <span className="text-gray-700">{video.title}</span>
-                                            {video.freePreview && (
+                                            <i className={`fa-solid ${resource.resourceType === "pdf" ? "fa-file-pdf" : resource.resourceType === "image" ? "fa-image" : "fa-circle-play"} text-primary`}></i>
+                                            <span className="text-gray-700">{resource.title}</span>
+                                            {resource.freePreview && (
                                                 <Badge variant="secondary" className="ml-auto">Preview</Badge>
                                             )}
                                         </div>
@@ -150,25 +154,27 @@ export default function ViewCourse() {
                             </CardContent>
                         </Card>
 
-                        {/* Video Dialog */}
-                        <Dialog open={!!selectedVideo} onOpenChange={(open) => { if (!open) setSelectedVideo(null) }}>
+                        {/* Resource dialog */}
+                        <Dialog open={!!selectedResource} onOpenChange={(open) => { if (!open) setSelectedResource(null) }}>
                             <DialogContent className="sm:max-w-[800px]">
                                 <DialogHeader>
                                     <DialogTitle className="text-xl font-semibold text-center mb-4">
-                                        {selectedVideo?.title}
+                                        {selectedResource?.title}
                                     </DialogTitle>
                                 </DialogHeader>
                                 <div className="relative rounded-lg overflow-hidden">
-                                    <Videoplayer
-                                        width="100%"
-                                        height="450px"
-                                        videoUrl={selectedVideo?.videoUrl ?? ""}
-                                    />
+                                    {selectedResource?.resourceType === "pdf" ? (
+                                        <iframe title={selectedResource.title} src={selectedResource.resourceUrl} className="h-[450px] w-full bg-white" />
+                                    ) : selectedResource?.resourceType === "image" ? (
+                                        <img src={selectedResource.resourceUrl} alt={selectedResource.title} className="max-h-[450px] w-full object-contain" />
+                                    ) : (
+                                        <Videoplayer width="100%" height="450px" videoUrl={selectedResource?.resourceUrl ?? ""} />
+                                    )}
                                 </div>
                                 <Button
                                     className="w-full mt-4"
                                     variant="outline"
-                                    onClick={() => setSelectedVideo(null)}
+                                    onClick={() => setSelectedResource(null)}
                                 >
                                     Close
                                 </Button>
@@ -185,7 +191,7 @@ export default function ViewCourse() {
                                         width="100%"
                                         height="100%"
                                         thumbnail={courseInfo.thumbnail}
-                                        videoUrl={courseInfo.files[0]?.videoUrl}
+                                        videoUrl={courseInfo.files.find((item) => !item.resourceType || item.resourceType === "video")?.resourceUrl || courseInfo.files.find((item) => !item.resourceType || item.resourceType === "video")?.videoUrl || ""}
                                     />
                                 </div>
                                 

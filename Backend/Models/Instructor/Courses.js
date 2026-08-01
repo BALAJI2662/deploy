@@ -45,6 +45,12 @@ const courseSchema = mongoose.Schema({
     keyPoints: { type: String },
     files: [
         {
+            resourceType: {
+                type: String,
+                enum: ["video", "pdf", "image"],
+                default: "video",
+            },
+            resourceUrl: String,
             videoUrl: String,
             public_id: String,
             freePreview: Boolean,

@@ -99,10 +99,10 @@ export default function StudentProfile() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-6">
+    <div className="min-h-full bg-background">
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Profile Header */}
-        <Card className="border-0 bg-primary text-primary-foreground overflow-hidden">
+        <Card className="border bg-primary/5 text-foreground overflow-hidden">
           <CardContent className="p-6">
             <div className="relative">
               <div className="flex flex-col md:flex-row items-center gap-6">
@@ -142,7 +142,7 @@ export default function StudentProfile() {
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {stats.map((stat, index) => (
-            <Card key={index} className="border-0">
+            <Card key={index}>
               <CardContent className="p-4">
                 <div className="flex items-center justify-between mb-3">
                   <div className="p-2.5 rounded-xl bg-primary/10">
@@ -159,7 +159,7 @@ export default function StudentProfile() {
 
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Personal Information */}
-          <Card className="border-0 lg:col-span-2">
+          <Card className="lg:col-span-2">
             <CardHeader className="pb-2">
               <h2 className="text-xl font-semibold flex items-center gap-2">
                 <User className="h-5 w-5 text-primary" />
@@ -224,7 +224,7 @@ export default function StudentProfile() {
           </Card>
 
           {/* Quick Actions */}
-          <Card className="border-0">
+          <Card>
             <CardHeader className="pb-2">
               <h3 className="text-xl font-semibold">Quick Actions</h3>
             </CardHeader>

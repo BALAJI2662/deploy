@@ -136,10 +136,10 @@ export default function AdminInstructors() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 md:p-6">
+        <div className="min-h-full bg-background">
             <div className="max-w-7xl mx-auto space-y-6">
                 {/* Welcome Banner */}
-                <Card className="overflow-hidden border-0 shadow-xl bg-gradient-to-r from-blue-600 to-purple-600">
+                <Card className="overflow-hidden border bg-primary/5 shadow-sm text-foreground">
                     <CardContent className="p-8 flex items-center gap-6">
                         <div className="flex-shrink-0">
                             <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
@@ -179,7 +179,7 @@ export default function AdminInstructors() {
                 {/* Stats */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {stats.map((stat, index) => (
-                        <Card key={index} className="border-0 shadow-md p-4 flex items-center gap-4">
+                        <Card key={index} className="p-4 flex items-center gap-4">
                             <div className={`p-3 rounded-full ${stat.color} bg-opacity-10`}>
                                 {stat.icon}
                             </div>
@@ -204,7 +204,7 @@ export default function AdminInstructors() {
                         filteredInstructors.map((instructor) => (
                             <Card 
                                 key={instructor._id}
-                                className="group cursor-pointer border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
+                                className="group cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:border-primary/30"
                             >
                                 <CardContent className="p-6">
                                     <div className="flex items-center gap-4 mb-4">                                        <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-200">

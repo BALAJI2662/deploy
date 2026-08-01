@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import React, { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { IconMenu2, IconX } from "@tabler/icons-react";
-import { Link, LinkProps } from "react-router-dom";
+import { NavLink, LinkProps } from "react-router-dom";
 
 interface Links {
   label: string;
@@ -32,7 +32,7 @@ export const SidebarProvider = ({
   children,
   open: openProp,
   setOpen: setOpenProp,
-  animate = true,
+  animate = false,
 }: {
   children: React.ReactNode;
   open?: boolean;
@@ -88,11 +88,11 @@ export const DesktopSidebar = ({
     <>
       <motion.div
         className={cn(
-          "h-full px-4 py-4 hidden md:flex md:flex-col bg-neutral-100 dark:bg-muted w-[220px] flex-shrink-0",
+          "h-full px-4 py-5 hidden md:flex md:flex-col bg-sidebar text-sidebar-foreground w-64 flex-shrink-0 border-r !border-[var(--sidebar-border)]",
           className
         )}
         animate={{
-          width: animate ? (open ? "220px" : "60px") : "220px",
+          width: animate ? (open ? "256px" : "72px") : "256px",
         }}
         onMouseEnter={() => setOpen(true)}
         onMouseLeave={() => setOpen(false)}
@@ -114,13 +114,13 @@ export const MobileSidebar = ({
     <>
       <div
         className={cn(
-          "h-10 px-4 py-4 flex flex-row md:hidden  items-center justify-between bg-neutral-100 dark:bg-neutral-800 w-full"
+          "h-14 px-4 flex flex-row md:hidden items-center justify-between bg-sidebar text-sidebar-foreground w-full"
         )}
         {...props}
       >
         <div className="flex justify-end z-20 w-full">
           <IconMenu2
-            className="text-neutral-800 dark:text-neutral-200"
+            className="text-sidebar-foreground"
             onClick={() => setOpen(!open)}
           />
         </div>
@@ -135,12 +135,12 @@ export const MobileSidebar = ({
                 ease: "easeInOut",
               }}
               className={cn(
-                "fixed h-full w-full inset-0 bg-white dark:bg-neutral-900 p-10 z-[100] flex flex-col justify-between",
+                "fixed h-full w-full inset-0 bg-sidebar text-sidebar-foreground p-8 z-[100] flex flex-col justify-between",
                 className
               )}
             >
               <div
-                className="absolute right-10 top-10 z-50 text-neutral-800 dark:text-neutral-200"
+                className="absolute right-8 top-7 z-50 text-sidebar-foreground"
                 onClick={() => setOpen(!open)}
               >
                 <IconX />
@@ -166,10 +166,11 @@ export const SidebarLink = ({
 }) => {
   const { open, animate } = useSidebar();
   return (
-    <Link
+    <NavLink
       to={link.href}
-      className={cn(
-        "flex items-center justify-start gap-2  group/sidebar py-2",
+      className={({ isActive }) => cn(
+        "flex items-center justify-start gap-3 rounded-md px-3 py-2.5 text-sm text-sidebar-foreground transition-colors hover:bg-sidebar-accent",
+        isActive && "!bg-primary !text-primary-foreground",
         className
       )}
       {...props}
@@ -181,10 +182,10 @@ export const SidebarLink = ({
           display: animate ? (open ? "inline-block" : "none") : "inline-block",
           opacity: animate ? (open ? 1 : 0) : 1,
         }}
-        className="text-neutral-700 dark:text-neutral-200 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0"
+        className="text-inherit group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0"
       >
         {link.label}
       </motion.span>
-    </Link>
+    </NavLink>
   );
 };

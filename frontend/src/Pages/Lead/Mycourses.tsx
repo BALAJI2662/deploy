@@ -117,10 +117,10 @@ export default function LeadMyCourses() {
     };
 
     return (
-        <div className="min-h-screen bg-background p-4 md:p-6">
+        <div className="min-h-full bg-background">
             <div className="max-w-6xl mx-auto space-y-8">
                 {/* Welcome Banner */}
-                <Card className="overflow-hidden border-0 bg-primary text-primary-foreground">
+                <Card className="overflow-hidden border bg-primary/5 text-foreground">
                     <CardContent className="p-6 flex items-center gap-4">
                         <div className="flex-shrink-0">
                             <div className="w-12 h-12 bg-primary-foreground/10 rounded-lg flex items-center justify-center backdrop-blur-sm">
@@ -161,7 +161,7 @@ export default function LeadMyCourses() {
                 {/* Statistics Section */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     {stats.map((stat, index) => (
-                        <Card key={index} className="border-0">
+                        <Card key={index}>
                             <CardContent className="p-4 flex items-center gap-3">
                                 <div className="p-2.5 rounded-xl bg-primary/10">
                                     {React.cloneElement(stat.icon, { className: "h-5 w-5 text-primary" })}
@@ -193,7 +193,7 @@ export default function LeadMyCourses() {
                             enrolledCourse.course.map((course) => (
                                 <Card 
                                     key={`${enrolledCourse._id}-${course._id}`}
-                                    className="group border-0 bg-card hover:bg-muted transition-colors duration-200"
+                                    className="group bg-card hover:bg-muted transition-colors duration-200"
                                 >
                                     <div className="relative">
                                         <AspectRatio ratio={16 / 9}>

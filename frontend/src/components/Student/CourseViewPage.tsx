@@ -21,6 +21,7 @@ export default function StudentCourseDetailesView() {
     const navigate = useNavigate()
     const [courseInfo, setCourseInfo] = useState<ICourse>()
     const [isProcessing, setIsProcessing] = useState(false)
+    const [isPurchased, setIsPurchased] = useState(false)
     
     const FetchCourseInfo = useCallback(async () => {
         const response = await fetch(`${API_BASE_URL}/courses/get/${id}`)
@@ -33,6 +34,23 @@ export default function StudentCourseDetailesView() {
     }, [FetchCourseInfo])
 
     const { user } = useSelector((state: RootState) => state.auth)
+
+    useEffect(() => {
+        const fetchPurchasedCourses = async () => {
+            if (!id) return;
+            try {
+                const response = await fetch(`${API_BASE_URL}/student/mycourse/all`, { credentials: "include" });
+                const data = await response.json();
+                const purchased = (data.studentCourses || []).some((purchase: { course?: { courseId: string | { _id: string } }[] }) =>
+                    purchase.course?.some((item) => String(typeof item.courseId === "string" ? item.courseId : item.courseId?._id) === id)
+                );
+                setIsPurchased(purchased);
+            } catch (error) {
+                console.error("Unable to check purchased courses:", error);
+            }
+        };
+        fetchPurchasedCourses();
+    }, [id]);
 
     const handleDirectOrder = async () => {
         setIsProcessing(true)
@@ -54,6 +72,7 @@ export default function StudentCourseDetailesView() {
             const data = await response.json()
             if (data.success) {
                 toast({ title: "Course purchased successfully!" })
+                setIsPurchased(true)
                 navigate("/student/mycourses")
             } else {
                 toast({ title: data.message || "Order failed, please try again", variant: "destructive" })
@@ -112,7 +131,13 @@ export default function StudentCourseDetailesView() {
                                 </div>
                                 <div className="mt-1.5 flex flex-col gap-3">
                                     <p className="font-bold text-lg pl-3">  ₹ {courseInfo.price} </p>
-                                    <Button disabled={isProcessing} onClick={handleDirectOrder} className="w-full">{isProcessing ? "Processing ..." : "Order Now"}</Button>
+                                    <Button
+                                        disabled={isProcessing}
+                                        onClick={isPurchased ? () => navigate("/student/mycourses") : handleDirectOrder}
+                                        className="w-full"
+                                    >
+                                        {isPurchased ? "Go to My Courses" : isProcessing ? "Processing ..." : "Order Now"}
+                                    </Button>
                                 </div>
                             </div>
                         </div>

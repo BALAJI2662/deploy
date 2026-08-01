@@ -134,20 +134,20 @@ export default function CoursesHomepage() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-6">
-      <div className="max-w-6xl mx-auto space-y-8">
+    <div className="min-h-full bg-background">
+      <div className="max-w-7xl mx-auto space-y-8">
         {/* Hero Section */}
-        <div className="text-center mb-6">
-          <Badge variant="secondary" className="bg-primary/10 text-primary hover:bg-primary/20 mb-4">
+        <div className="border-b border-border pb-6">
+          <Badge variant="secondary" className="bg-primary/10 text-primary hover:bg-primary/20 mb-3">
             <Award className="w-4 h-4 mr-2" />
             Student Dashboard
           </Badge>
           
-          <h1 className="text-2xl md:text-3xl font-bold mb-3">
-            Welcome to Your <span className="text-primary">Learning Journey</span>
+          <h1 className="font-semibold mb-2">
+            Welcome back. <span className="text-primary">Keep learning.</span>
           </h1>
           
-          <p className="text-base text-muted-foreground max-w-xl mx-auto mb-6">
+          <p className="text-sm text-muted-foreground max-w-2xl">
             Track your progress, continue your courses, and discover new learning opportunities.
           </p>
         </div>
@@ -155,7 +155,7 @@ export default function CoursesHomepage() {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {stats.map((stat, index) => (
-            <Card key={index} className="border-0">
+            <Card key={index}>
               <CardContent className="p-4">
                 <div className="flex items-center justify-between mb-3">
                   <div className="p-2.5 rounded-xl bg-primary/10">
@@ -171,7 +171,7 @@ export default function CoursesHomepage() {
         </div>
 
         {/* Quick Actions */}
-        <Card className="border-0">
+        <Card>
           <CardContent className="p-6">
             <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -225,7 +225,7 @@ export default function CoursesHomepage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {myCourses.slice(0, 3).map((course, index) => (
                 <Link key={index} to={`/student/mycourses/view-page/${course._id}`}>
-                  <Card className="group cursor-pointer border-0 bg-card hover:bg-muted transition-colors duration-200">
+                  <Card className="group cursor-pointer bg-card hover:bg-muted transition-colors duration-200">
                     <div className="relative">
                       <AspectRatio ratio={16/9}>
                         <img 
@@ -276,7 +276,7 @@ export default function CoursesHomepage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {popularCourses.map((course, index) => (
               <Link key={index} to={`/student/courses/${course._id}`}>
-                <Card className="group cursor-pointer border-0 bg-card hover:bg-muted transition-colors duration-200">
+                <Card className="group cursor-pointer bg-card hover:bg-muted transition-colors duration-200">
                   <div className="relative">
                     <AspectRatio ratio={16/9}>
                       <img 

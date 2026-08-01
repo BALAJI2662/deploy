@@ -14,9 +14,7 @@ interface EarningItem {
     courseTitle: string;
     userEmail: string;
     orderStatus: string;
-    coursePrice: {
-        $numberDecimal: string;
-    };
+    coursePrice: number | { $numberDecimal: string };
     paymentStatus: string;
     createdAt: string;
 }
@@ -34,8 +32,10 @@ export default function EarningPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
     const [sortBy, setSortBy] = useState("date");
-    const [filteredData, setFilteredData] = useState<EarningItem[]>([]);
     const [error, setError] = useState<string | null>(null);
+
+    const getAmount = (amount: EarningItem["coursePrice"]) =>
+        typeof amount === "number" ? amount : Number(amount?.$numberDecimal || 0);
 
     const calculateStats = useCallback((data: EarningItem[]): EarningStats => {
         if (!Array.isArray(data)) {
@@ -50,18 +50,16 @@ export default function EarningPage() {
 
         const successfulPayments = data.filter(item => 
             item && 
-            item.orderStatus === "Approval" &&
-            item.coursePrice &&
-            typeof item.coursePrice.$numberDecimal === 'string'
+            item.orderStatus === "Approved"
         );
 
         const totalSuccessfulAmount = successfulPayments.reduce((sum, item) => 
-            sum + parseFloat(item.coursePrice.$numberDecimal || "0"), 0
+            sum + getAmount(item.coursePrice), 0
         );
 
         const pendingAmount = data.reduce((sum, item) => {
             if (item && item.coursePrice && item.orderStatus === "Pending") {
-                return sum + parseFloat(item.coursePrice.$numberDecimal || "0");
+                return sum + getAmount(item.coursePrice);
             }
             return sum;
         }, 0);
@@ -80,11 +78,11 @@ export default function EarningPage() {
         );
 
         const currentMonthTotal = currentMonthPayments.reduce((sum, item) => 
-            sum + parseFloat(item.coursePrice.$numberDecimal || "0"), 0
+            sum + getAmount(item.coursePrice), 0
         );
 
         const lastMonthTotal = lastMonthPayments.reduce((sum, item) => 
-            sum + parseFloat(item.coursePrice.$numberDecimal || "0"), 0
+            sum + getAmount(item.coursePrice), 0
         );
 
         const monthlyGrowth = lastMonthTotal === 0 ? 
@@ -118,12 +116,10 @@ export default function EarningPage() {
 
             const orders = result.orders || [];
             setEarningData(orders);
-            setFilteredData(orders);
         } catch (error) {
             console.error("Error fetching earnings:", error);
             setError(error instanceof Error ? error.message : 'Failed to fetch earnings');
             setEarningData([]);
-            setFilteredData([]);
         } finally {
             setIsLoading(false);
         }
@@ -133,19 +129,15 @@ export default function EarningPage() {
         fetchInstructorEarnings();
     }, []);
 
-    useEffect(() => {
+    const filteredData = useMemo(() => {
         const filtered = earningData.filter((item: EarningItem) => 
             item.courseTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
             item.userEmail.toLowerCase().includes(searchTerm.toLowerCase())
         );
-        setFilteredData(filtered);
-    }, [searchTerm, earningData]);
-
-    useEffect(() => {
-        const sorted = [...filteredData].sort((a: EarningItem, b: EarningItem) => {
+        return [...filtered].sort((a: EarningItem, b: EarningItem) => {
             switch (sortBy) {
                 case "amount":
-                    return parseFloat(b.coursePrice.$numberDecimal) - parseFloat(a.coursePrice.$numberDecimal);
+                    return getAmount(b.coursePrice) - getAmount(a.coursePrice);
                 case "status":
                     return a.orderStatus.localeCompare(b.orderStatus);
                 case "date":
@@ -153,8 +145,7 @@ export default function EarningPage() {
                     return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
             }
         });
-        setFilteredData(sorted);
-    }, [sortBy, filteredData]);
+    }, [earningData, searchTerm, sortBy]);
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 lg:p-6">
@@ -175,7 +166,7 @@ export default function EarningPage() {
 
                 {/* Stats Grid */}
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                    <Card className="bg-primary/5 border-none">
+                    <Card className="border bg-card">
                         <CardContent className="p-6">
                             <div className="flex items-center space-x-4">
                                 <div className="p-2 bg-primary/10 rounded-full">
@@ -189,11 +180,11 @@ export default function EarningPage() {
                         </CardContent>
                     </Card>
 
-                    <Card className="bg-green-50 border-none">
+                    <Card className="border bg-card">
                         <CardContent className="p-6">
                             <div className="flex items-center space-x-4">
-                                <div className="p-2 bg-green-100 rounded-full">
-                                    <Users className="h-6 w-6 text-green-600" />
+                                <div className="p-2 rounded-full bg-primary/10">
+                                    <Users className="h-6 w-6 text-primary" />
                                 </div>
                                 <div>
                                     <p className="text-sm font-medium text-muted-foreground">Successful Orders</p>
@@ -203,11 +194,11 @@ export default function EarningPage() {
                         </CardContent>
                     </Card>
 
-                    <Card className="bg-orange-50 border-none">
+                    <Card className="border bg-card">
                         <CardContent className="p-6">
                             <div className="flex items-center space-x-4">
-                                <div className="p-2 bg-orange-100 rounded-full">
-                                    <AlertCircle className="h-6 w-6 text-orange-600" />
+                                <div className="p-2 rounded-full bg-muted">
+                                    <AlertCircle className="h-6 w-6 text-muted-foreground" />
                                 </div>
                                 <div>
                                     <p className="text-sm font-medium text-muted-foreground">Pending Amount</p>
@@ -217,11 +208,11 @@ export default function EarningPage() {
                         </CardContent>
                     </Card>
 
-                    <Card className="bg-blue-50 border-none">
+                    <Card className="border bg-card">
                         <CardContent className="p-6">
                             <div className="flex items-center space-x-4">
-                                <div className="p-2 bg-blue-100 rounded-full">
-                                    <TrendingUp className="h-6 w-6 text-blue-600" />
+                                <div className="p-2 rounded-full bg-primary/10">
+                                    <TrendingUp className="h-6 w-6 text-primary" />
                                 </div>
                                 <div>
                                     <p className="text-sm font-medium text-muted-foreground">Monthly Growth</p>
@@ -235,7 +226,7 @@ export default function EarningPage() {
                 </div>
 
                 {/* Search and Filter */}
-                <Card className="border-none shadow-sm">
+                <Card className="border shadow-sm">
                     <CardContent className="p-4 flex flex-col sm:flex-row justify-between gap-4">
                         <div className="relative flex-1">
                             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -271,13 +262,13 @@ export default function EarningPage() {
 
                 {/* Transactions Table */}
                 {isLoading ? (
-                    <Card className="border-none">
+                    <Card className="border">
                         <CardContent className="p-6 flex justify-center">
                             <Loader2 className="h-8 w-8 animate-spin text-primary" />
                         </CardContent>
                     </Card>
                 ) : (
-                    <Card className="border-none">
+                    <Card className="border">
                         <CardContent className="p-0">
                             <Table>
                                 <TableHeader className="bg-muted/50">
@@ -294,12 +285,12 @@ export default function EarningPage() {
                                         <TableRow key={index}>
                                             <TableCell className="font-medium">{item.courseTitle}</TableCell>
                                             <TableCell>{item.userEmail}</TableCell>
-                                            <TableCell>₹{parseFloat(item.coursePrice.$numberDecimal).toFixed(2)}</TableCell>
+                                            <TableCell>₹{getAmount(item.coursePrice).toFixed(2)}</TableCell>
                                             <TableCell>
                                                 <Badge 
-                                                    variant={item.orderStatus === "Approval" ? "default" : "secondary"}
+                                                    variant={item.orderStatus === "Approved" ? "default" : "secondary"}
                                                     className={
-                                                        item.orderStatus === "Approval" 
+                                                        item.orderStatus === "Approved" 
                                                             ? "bg-green-100 text-green-800" 
                                                             : "bg-yellow-100 text-yellow-800"
                                                     }

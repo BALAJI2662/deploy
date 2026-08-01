@@ -50,13 +50,13 @@ export function Home() {
         <>
             <div
                 className={cn(
-                    "rounded-md flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 max-w-full mx-auto border border-neutral-200 dark:border-neutral-700 overflow-hidden",
+                    "flex flex-col md:flex-row bg-background w-full flex-1 max-w-full mx-auto overflow-hidden",
                     "h-[100vh]"
                 )}
             >
                
                 <Sidebar open={open} setOpen={setOpen}>
-                    <SidebarBody className="bg-muted font-bold rounded-tr-2xl rounded-br-2xl text-primary-foreground">
+                    <SidebarBody className="text-sidebar-foreground">
                         <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
                             {open ? (
                                 <Logo />
@@ -155,18 +155,18 @@ const Dashboard = () => {
     return (
         <div className="flex flex-col flex-1 overflow-y-auto">
             {/* Hero Section */}
-            <div className="relative bg-gradient-to-r from-primary/10 to-primary/5 p-8 md:p-20">
+            <div className="relative border-b border-border bg-background p-6 md:p-12">
                 <div className="max-w-7xl mx-auto">
                     <div className="flex flex-col md:flex-row items-center justify-between gap-8">
                         <div className="flex-1 space-y-6">
-                            <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
+                            <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">
                                 Better Learning Future Starts With{' '}
                                 <FlipWords 
                                     className="text-primary" 
                                     words={["Knowledge", "Innovation", "Growth", "Success"]} 
                                 />
                             </h1>
-                            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl">
+                            <p className="text-base text-muted-foreground max-w-2xl">
                                 Welcome to Byway, where learning knows no bounds. Discover expert-led courses 
                                 designed to transform your skills and accelerate your career.
                             </p>
@@ -191,11 +191,11 @@ const Dashboard = () => {
             </div>
 
             {/* Featured Courses Section */}
-            <section className="py-16 px-8">
+            <section className="py-12 px-6 md:px-8">
                 <div className="max-w-7xl mx-auto">
-                    <div className="flex justify-between items-center mb-12">
+                    <div className="flex justify-between items-center mb-8">
                         <div>
-                            <h2 className="text-3xl font-bold">Featured Courses</h2>
+                        <h2 className="text-xl font-semibold">Featured Courses</h2>
                             <p className="text-muted-foreground mt-2">Explore our most popular courses</p>
                         </div>
                         <Button variant="outline" asChild>
@@ -203,7 +203,7 @@ const Dashboard = () => {
                         </Button>
                     </div>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                         {featuredCourses.map((course, idx) => (
                             <div key={idx} className="group bg-card rounded-lg overflow-hidden border shadow-sm hover:shadow-lg transition-all">
                                 <div className="aspect-video relative overflow-hidden">
@@ -241,9 +241,9 @@ const Dashboard = () => {
             </section>
 
             {/* Why Choose Us Section */}
-            <section className="bg-muted/50 py-16 px-8">
+            <section className="bg-muted/50 py-12 px-6 md:px-8">
                 <div className="max-w-7xl mx-auto">
-                    <h2 className="text-3xl font-bold text-center mb-12">Why Choose Byway?</h2>
+                    <h2 className="text-xl font-semibold text-center mb-8">Why Choose Byway?</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div className="flex flex-col items-center text-center p-6">
                             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">

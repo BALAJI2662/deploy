@@ -212,26 +212,43 @@ const StudentCapturePayment = async (req, res) => {
 // ─── DIRECT PURCHASE (PayPal bypassed) ───────────────────────────────────────
 const DirectPurchaseStudent = async (req, res) => {
     await db();
-    const { userId, userEmail, instructorId, courseId, coursePrice, courseTitle } = req.body;
+    const { courseId } = req.body;
     try {
+        const userId = req.user.userId;
         const FindStudentInfo = await StudentModel.findOne({ userId });
         if (!FindStudentInfo) {
             return res.status(404).json({ success: false, message: "Student not found" });
         }
 
+        const course = await courseModel.findOne({ _id: courseId, isPublished: true });
+        if (!course) {
+            return res.status(404).json({ success: false, message: "Course not found" });
+        }
+
+        const existingPurchase = await StudentCoursePurchaseModel.exists({
+            studentId: FindStudentInfo._id,
+            "course.courseId": courseId,
+        });
+        if (existingPurchase) {
+            return res.status(409).json({
+                success: false,
+                message: "You have already purchased this course",
+            });
+        }
+
         // Create order with Approved status directly (no PayPal)
         const newOrder = new OrderModel({
             userId,
-            userEmail,
+            userEmail: FindStudentInfo.email,
             orderStatus: "Approved",
             paymentMethod: "direct",
             orderDate: Date.now(),
             paymentId: "direct",
             payerId: "direct",
-            instructorId,
+            instructorId: course.instructor,
             courseId,
-            coursePrice: Number(coursePrice),
-            courseTitle
+            coursePrice: Number(course.price),
+            courseTitle: course.title
         });
         await newOrder.save();
 
@@ -240,20 +257,20 @@ const DirectPurchaseStudent = async (req, res) => {
         if (studentCourses) {
             const courseExists = studentCourses.course.some(c => c.courseId.toString() === courseId.toString());
             if (!courseExists) {
-                studentCourses.course.push({ courseId, courseTitle, instructorId, paid: coursePrice });
+                studentCourses.course.push({ courseId, courseTitle: course.title, instructorId: course.instructor, paid: course.price });
                 await studentCourses.save();
             }
         } else {
             studentCourses = new StudentCoursePurchaseModel({
                 studentId: FindStudentInfo._id,
-                course: [{ courseId, courseTitle, instructorId, paid: coursePrice }]
+                course: [{ courseId, courseTitle: course.title, instructorId: course.instructor, paid: course.price }]
             });
             await studentCourses.save();
         }
 
         // Update course enrollment
         await courseModel.findByIdAndUpdate(courseId, {
-            $addToSet: { students: { studentId: FindStudentInfo._id, paidAmount: coursePrice } }
+            $addToSet: { students: { studentId: FindStudentInfo._id, paidAmount: course.price } }
         });
 
         res.json({ success: true, message: "Course purchased successfully" });

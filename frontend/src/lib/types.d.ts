@@ -111,6 +111,8 @@ interface ICourse {
         freePreview: boolean;
         public_id: string;
         videoUrl: string;
+        resourceUrl?: string;
+        resourceType?: "video" | "pdf" | "image";
         title: string;
     }[];
     createdAt?: Date;
@@ -269,6 +271,8 @@ interface AdminCourse {
         _id: string;
         title: string;
         videoUrl: string;
+        resourceUrl?: string;
+        resourceType?: "video" | "pdf" | "image";
         public_id: string;
         freePreview: boolean;
     }]

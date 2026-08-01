@@ -102,28 +102,28 @@ export default function InstructorDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 p-4 md:p-6">
+    <div className="min-h-screen bg-background p-4 md:p-6">
       <div className="max-w-5xl mx-auto">
         {/* Hero Section */}
         <div className="text-center mb-10 pt-8">
-          <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-600 px-3 py-1.5 rounded-full text-sm font-medium mb-4">
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-3 py-1.5 rounded-full text-sm font-medium mb-4">
             <Award className="w-4 h-4" />
             Instructor Portal
           </div>
           
-          <h1 className="text-2xl font-bold text-slate-900 mb-4">
+          <h1 className="text-2xl font-bold text-foreground mb-4">
             Shape the Future of
-            <span className="text-blue-600"> Learning</span>
+            <span className="text-primary"> Learning</span>
           </h1>
           
-          <p className="text-base text-slate-600 max-w-xl mx-auto mb-6">
+          <p className="text-base text-muted-foreground max-w-xl mx-auto mb-6">
             Empower students worldwide with your expertise. Create impactful courses, 
             track progress, and build a community of learners.
           </p>
           
           <Button 
             onClick={() => navigate('/instructor/new')}
-            className="inline-flex items-center"
+            className="inline-flex items-center !bg-primary !text-primary-foreground hover:!bg-primary"
           >
             <BookOpen className="w-4 h-4 mr-2" />
             Create Course
@@ -132,58 +132,58 @@ export default function InstructorDashboard() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-          <div className="bg-white rounded-lg p-4 shadow-sm border border-slate-100">
+          <div className="bg-card rounded-lg p-4 shadow-sm border border-border">
             <div className="flex items-center justify-between mb-3">
-              <div className="p-2 bg-blue-50 rounded-md">
-                <BookOpen className="w-5 h-5 text-blue-600" />
+              <div className="p-2 bg-primary/10 rounded-md">
+                <BookOpen className="w-5 h-5 text-primary" />
               </div>
-              <span className="text-xl font-bold text-slate-900">{stats.activeCourses}</span>
+              <span className="text-xl font-bold text-foreground">{stats.activeCourses}</span>
             </div>
-            <h3 className="font-medium text-slate-900 mb-0.5">Active Courses</h3>
-            <p className="text-sm text-slate-500">Currently published</p>
+            <h3 className="font-medium text-foreground mb-0.5">Active Courses</h3>
+            <p className="text-sm text-muted-foreground">Currently published</p>
           </div>
 
-          <div className="bg-white rounded-lg p-4 shadow-sm border border-slate-100">
+          <div className="bg-card rounded-lg p-4 shadow-sm border border-border">
             <div className="flex items-center justify-between mb-3">
-              <div className="p-2 bg-green-50 rounded-md">
-                <Users className="w-5 h-5 text-green-600" />
+              <div className="p-2 bg-primary/10 rounded-md">
+                <Users className="w-5 h-5 text-primary" />
               </div>
-              <span className="text-xl font-bold text-slate-900">
+              <span className="text-xl font-bold text-foreground">
                 {new Intl.NumberFormat("en-US", { notation: "compact" }).format(stats.totalStudents)}
               </span>
             </div>
-            <h3 className="font-medium text-slate-900 mb-0.5">Total Students</h3>
-            <p className="text-sm text-slate-500">Across all courses</p>
+            <h3 className="font-medium text-foreground mb-0.5">Total Students</h3>
+            <p className="text-sm text-muted-foreground">Across all courses</p>
           </div>
 
-          <div className="bg-white rounded-lg p-4 shadow-sm border border-slate-100">
+          <div className="bg-card rounded-lg p-4 shadow-sm border border-border">
             <div className="flex items-center justify-between mb-3">
-              <div className="p-2 bg-orange-50 rounded-md">
-                <Award className="w-5 h-5 text-orange-600" />
+              <div className="p-2 bg-primary/10 rounded-md">
+                <Award className="w-5 h-5 text-primary" />
               </div>
-              <span className="text-xl font-bold text-slate-900">{stats.completionRate}%</span>
+              <span className="text-xl font-bold text-foreground">{stats.completionRate}%</span>
             </div>
-            <h3 className="font-medium text-slate-900 mb-0.5">Completion Rate</h3>
-            <p className="text-sm text-slate-500">Student success</p>
+            <h3 className="font-medium text-foreground mb-0.5">Completion Rate</h3>
+            <p className="text-sm text-muted-foreground">Student success</p>
           </div>
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-white rounded-lg p-6 shadow-sm border border-slate-100">
-          <h2 className="text-lg font-semibold text-slate-900 mb-4">Quick Actions</h2>
+        <div className="bg-card rounded-lg p-6 shadow-sm border border-border">
+          <h2 className="text-lg font-semibold text-foreground mb-4">Quick Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div 
               className="group cursor-pointer" 
               onClick={() => navigate('/instructor/new')}
             >
-              <div className="p-4 rounded-lg border border-slate-200 hover:border-blue-200 hover:bg-blue-50/30 transition-all">
+              <div className="p-4 rounded-lg border border-border hover:bg-accent transition-all">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-blue-50 rounded-md flex items-center justify-center group-hover:bg-blue-100 transition-colors">
-                    <BookOpen className="w-5 h-5 text-blue-600" />
+                  <div className="w-10 h-10 bg-primary/10 rounded-md flex items-center justify-center transition-colors">
+                    <BookOpen className="w-5 h-5 text-primary" />
                   </div>
                   <div className="text-left">
-                    <h3 className="font-medium text-slate-900 mb-0.5">Create New Course</h3>
-                    <p className="text-sm text-slate-500">Start building your next course</p>
+                    <h3 className="font-medium text-foreground mb-0.5">Create New Course</h3>
+                    <p className="text-sm text-muted-foreground">Start building your next course</p>
                   </div>
                 </div>
               </div>
@@ -193,14 +193,14 @@ export default function InstructorDashboard() {
               className="group cursor-pointer"
               onClick={() => navigate('/instructor/courses')}
             >
-              <div className="p-4 rounded-lg border border-slate-200 hover:border-green-200 hover:bg-green-50/30 transition-all">
+              <div className="p-4 rounded-lg border border-border hover:bg-accent transition-all">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-green-50 rounded-md flex items-center justify-center group-hover:bg-green-100 transition-colors">
-                    <Users className="w-5 h-5 text-green-600" />
+                  <div className="w-10 h-10 bg-primary/10 rounded-md flex items-center justify-center transition-colors">
+                    <Users className="w-5 h-5 text-primary" />
                   </div>
                   <div className="text-left">
-                    <h3 className="font-medium text-slate-900 mb-0.5">Manage Students</h3>
-                    <p className="text-sm text-slate-500">View and interact with learners</p>
+                    <h3 className="font-medium text-foreground mb-0.5">Manage Students</h3>
+                    <p className="text-sm text-muted-foreground">View and interact with learners</p>
                   </div>
                 </div>
               </div>

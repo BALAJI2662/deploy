@@ -16,11 +16,20 @@ import { uploadToCloudinary } from "@/lib/cloudinary";
 import Videoplayer from "@/components/Common/VideoPlayer/Videoplayer";
 import { useNavigate } from "react-router-dom";
 
+type ResourceType = "video" | "pdf" | "image";
+type CourseResource = {
+    id: number;
+    title: string;
+    freePreview: boolean;
+    resourceType: ResourceType;
+    resourceUrl: string | null;
+};
+
 const AddCourse = () => {
     const navigate = useNavigate()
-    const [sections, setSections] = useState<
-        { id: number; title: string; freePreview: boolean; videoUrl: string | null }[]
-    >([{ id: 1, title: "", freePreview: false, videoUrl: null }]);
+    const [sections, setSections] = useState<CourseResource[]>([
+        { id: 1, title: "", freePreview: false, resourceType: "video", resourceUrl: null },
+    ]);
 
     const [formData, setFormData] = useState({
         title: "",
@@ -37,7 +46,7 @@ const AddCourse = () => {
     const addSection = () => {
         setSections((prev) => [
             ...prev,
-            { id: prev.length + 1, title: "", freePreview: false, videoUrl: null },
+            { id: prev.length + 1, title: "", freePreview: false, resourceType: "video", resourceUrl: null },
         ]);
     };
 
@@ -47,7 +56,7 @@ const AddCourse = () => {
 
     const handleInputChange = (
         id: number,
-        key: "title" | "freePreview" | "videoUrl",
+        key: "title" | "freePreview" | "resourceUrl",
         value: string | boolean | null
     ) => {
         setSections((prev) =>
@@ -57,22 +66,36 @@ const AddCourse = () => {
         );
     };
 
-    const handleFileChange = async (id: number, file: File | null) => {
+    const handleResourceTypeChange = (id: number, resourceType: ResourceType) => {
+        setSections((prev) => prev.map((section) =>
+            section.id === id ? { ...section, resourceType, resourceUrl: null } : section
+        ));
+    };
+
+    const handleFileChange = async (section: CourseResource, file: File | null) => {
         if (file) {
             try {
-                if (!file.type.startsWith('video/')) {
-                    alert('Please upload a valid video file');
+                const isValidFile = section.resourceType === "video"
+                    ? file.type.startsWith("video/")
+                    : section.resourceType === "pdf"
+                        ? file.type === "application/pdf"
+                        : file.type.startsWith("image/");
+                if (!isValidFile) {
+                    alert(`Please upload a valid ${section.resourceType} file`);
                     return;
                 }
-                const maxSize = 100 * 1024 * 1024;
+                const maxSize = section.resourceType === "video" ? 100 * 1024 * 1024 : 10 * 1024 * 1024;
                 if (file.size > maxSize) {
-                    alert('File size should be less than 100MB');
+                    alert(`File size should be less than ${section.resourceType === "video" ? "100" : "10"}MB`);
                     return;
                 }
-                const videoUrl = await uploadToCloudinary(file, "CourseVideos", (progress) => {
+                const folder = section.resourceType === "video"
+                    ? "CourseVideos"
+                    : section.resourceType === "pdf" ? "CourseDocuments" : "CourseImages";
+                const resourceUrl = await uploadToCloudinary(file, folder, (progress) => {
                     console.log(`Upload is ${progress}% done`);
                 });
-                handleInputChange(id, "videoUrl", videoUrl);
+                handleInputChange(section.id, "resourceUrl", resourceUrl);
             } catch (error) {
                 console.error("Error during file upload: ", error);
                 alert(error instanceof Error ? error.message : "Error uploading file");
@@ -129,7 +152,7 @@ const AddCourse = () => {
             formData[field as keyof typeof formData]?.toString().trim() !== ""
         );
         const areSectionsValid = sections.every(
-            (section) => section.title.trim() !== "" && section.videoUrl !== null
+            (section) => section.title.trim() !== "" && section.resourceUrl !== null
         );
         return areFieldsValid && areSectionsValid;
     };
@@ -137,11 +160,13 @@ const AddCourse = () => {
     const handleFormSubmit = () => {
         const formSubmissionData = {
             ...formData,
-            files: sections.map(({ id, title, freePreview, videoUrl }) => ({
+            files: sections.map(({ id, title, freePreview, resourceType, resourceUrl }) => ({
                 id,
                 title,
                 freePreview,
-                videoUrl,
+                resourceType,
+                resourceUrl,
+                videoUrl: resourceType === "video" ? resourceUrl : "",
             })),
         };
 
@@ -173,17 +198,17 @@ const AddCourse = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-3">
-            <form onSubmit={handleSubmit} className="max-w-7xl mx-auto">
+        <div className="min-h-full bg-background">
+            <form onSubmit={handleSubmit} className="max-w-7xl mx-auto pb-8">
                 <div className="flex flex-col lg:flex-row gap-4">
                     {/* Course Details */}
-                    <div className="w-full lg:w-1/2 bg-white rounded-lg shadow-md p-4">
-                        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 rounded-lg mb-4">
-                            <h1 className="text-xl font-bold">Create New Course</h1>
-                            <p className="text-sm text-white/80">Fill in the details</p>
+                    <div className="w-full min-w-0 lg:w-1/2 rounded-lg border bg-card p-5">
+                        <div className="border-b border-border pb-4 mb-5">
+                            <h1 className="text-xl font-semibold">Create New Course</h1>
+                            <p className="text-sm text-muted-foreground">Fill in the details</p>
                         </div>
                         
-                        <div className="space-y-4 max-h-[calc(100vh-16rem)] overflow-y-auto pr-2">
+                        <div className="space-y-4">
                             {courseSchemaFields.map((field, index) => (
                                 <div key={field.label + index}>
                                     <label className="text-sm font-medium text-gray-700 mb-1 block">
@@ -252,14 +277,14 @@ const AddCourse = () => {
                         </div>
                     </div>
 
-                    {/* Video Modules */}
-                    <div className="w-full lg:w-1/2 bg-white rounded-lg shadow-md p-4">
-                        <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-4 rounded-lg mb-4">
-                            <h1 className="text-xl font-bold">Course Content</h1>
-                            <p className="text-sm text-white/80">Add sections and videos</p>
+                    {/* Course resources */}
+                    <div className="w-full min-w-0 lg:w-1/2 rounded-lg border bg-card p-5">
+                        <div className="border-b border-border pb-4 mb-5">
+                            <h1 className="text-xl font-semibold">Course Content</h1>
+                            <p className="text-sm text-muted-foreground">Add videos, PDFs, and images in any order</p>
                         </div>
                         
-                        <div className="space-y-4 max-h-[calc(100vh-16rem)] overflow-y-auto pr-2">
+                        <div className="space-y-4">
                             {sections.map((section) => (
                                 <div
                                     key={section.id}
@@ -271,6 +296,7 @@ const AddCourse = () => {
                                             variant="destructive"
                                             size="sm"
                                             className="h-7 w-7 rounded-full p-0"
+                                            type="button"
                                             onClick={() => deleteSection(section.id)}
                                         >
                                             ×
@@ -278,21 +304,41 @@ const AddCourse = () => {
                                     </div>
                                     
                                     <Input
-                                        placeholder="Enter section title"
+                                        placeholder="Enter resource title"
                                         value={section.title}
                                         onChange={(e) => handleInputChange(section.id, "title", e.target.value)}
                                         className="mb-3"
                                     />
 
-                                    {section.videoUrl ? (
+                                    <Select
+                                        value={section.resourceType}
+                                        onValueChange={(value) => handleResourceTypeChange(section.id, value as ResourceType)}
+                                    >
+                                        <SelectTrigger className="mb-3">
+                                            <SelectValue placeholder="Resource type" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="video">Video lesson</SelectItem>
+                                            <SelectItem value="pdf">PDF document</SelectItem>
+                                            <SelectItem value="image">Image</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+
+                                    {section.resourceUrl && section.resourceType === "video" ? (
                                         <div className="rounded-md overflow-hidden mb-3">
-                                            <Videoplayer height="150px" width="100%" videoUrl={section.videoUrl} />
+                                            <Videoplayer height="150px" width="100%" videoUrl={section.resourceUrl} />
                                         </div>
+                                    ) : section.resourceUrl && section.resourceType === "image" ? (
+                                        <img src={section.resourceUrl} alt={section.title || "Course resource"} className="mb-3 h-36 w-full rounded-md object-cover" />
+                                    ) : section.resourceUrl ? (
+                                        <a href={section.resourceUrl} target="_blank" rel="noreferrer" className="mb-3 block rounded-md border p-3 text-sm text-primary underline">
+                                            PDF uploaded — open preview
+                                        </a>
                                     ) : (
                                         <Input
                                             type="file"
-                                            placeholder="Upload Video"
-                                            onChange={(e) => handleFileChange(section.id, e.target.files?.[0] ?? null)}
+                                            accept={section.resourceType === "video" ? "video/*" : section.resourceType === "pdf" ? "application/pdf" : "image/*"}
+                                            onChange={(e) => handleFileChange(section, e.target.files?.[0] ?? null)}
                                             className="mb-3"
                                         />
                                     )}

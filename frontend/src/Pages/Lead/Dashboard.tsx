@@ -94,7 +94,7 @@ export default function LeadDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-6">
+    <div className="min-h-full bg-background">
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Hero Section */}
         <div className="text-center mb-6">
@@ -115,7 +115,7 @@ export default function LeadDashboard() {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {stats.map((stat, index) => (
-            <Card key={index} className="border-0">
+            <Card key={index}>
               <CardContent className="p-4">
                 <div className="flex items-center justify-between mb-3">
                   <div className="p-2.5 rounded-xl bg-primary/10">
@@ -131,7 +131,7 @@ export default function LeadDashboard() {
         </div>
 
         {/* Quick Actions */}
-        <Card className="border-0">
+        <Card>
           <CardContent className="p-6">
             <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

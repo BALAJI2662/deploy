@@ -128,7 +128,7 @@ export default function InstructorCourseEnrollDetailesPage() {
                   Course Content
                 </h2>
                 <p className="text-sm text-gray-500 mt-1">
-                  {courseData?.files?.length || 0} videos
+                  {courseData?.files?.length || 0} items
                 </p>
               </div>
 
@@ -154,11 +154,7 @@ export default function InstructorCourseEnrollDetailesPage() {
                           : "bg-gray-100 text-gray-400 group-hover:bg-primary/20 group-hover:text-primary"
                         }
                       `}>
-                        {value && value - 1 === index ? (
-                          <i className="fa-solid fa-pause text-xs"></i>
-                        ) : (
-                          <i className="fa-solid fa-play text-xs"></i>
-                        )}
+                        <i className={`fa-solid ${data.resourceType === "pdf" ? "fa-file-pdf" : data.resourceType === "image" ? "fa-image" : value && value - 1 === index ? "fa-pause" : "fa-play"} text-xs`}></i>
                       </div>
 
                       <div className="flex-1 min-w-0">
@@ -182,13 +178,13 @@ export default function InstructorCourseEnrollDetailesPage() {
             </div>
           </div>
 
-          {/* Video Player Section */}
-          <div className="lg:col-span-3 order-1 lg:order-2">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 h-full flex flex-col">
+          {/* Resource viewer */}
+          <div className="lg:col-span-3 order-1 lg:order-2 self-start">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col">
               {courseData?.files
                 ?.filter((_, index) => index + 1 === value)
                 .map((data) => (
-                  <div key={data.title} className="h-full flex flex-col">
+                  <div key={data.title} className="flex flex-col">
                     <div className="p-4 border-b border-gray-100">
                       <h3 className="text-lg font-semibold text-gray-900">
                         {data.title}
@@ -200,19 +196,37 @@ export default function InstructorCourseEnrollDetailesPage() {
                       )}
                     </div>
 
-                    <div className="flex-1 p-4">
+                    <div className="p-4">
                       {videoLoad ? (
-                        <div className="h-full flex justify-center items-center">
+                        <div className="h-[clamp(20rem,55vh,34rem)] flex justify-center items-center">
                           <BookLoader />
                         </div>
                       ) : (
-                        <div className="relative h-full rounded-lg overflow-hidden bg-black/5">
+                        <div className="relative h-[clamp(20rem,55vh,34rem)] rounded-lg overflow-hidden bg-black/5">
+                          {data.resourceType === "pdf" ? (
+                            <div className="h-full bg-white p-3">
+                              <iframe
+                                title={data.title}
+                                src={`${data.resourceUrl || data.videoUrl}#toolbar=0&navpanes=0`}
+                                className="h-full w-full rounded border-0"
+                              />
+                            </div>
+                          ) : data.resourceType === "image" ? (
+                            <div className="flex h-full items-center justify-center bg-white p-4">
+                              <img
+                                src={data.resourceUrl || data.videoUrl}
+                                alt={data.title}
+                                className="max-h-full max-w-full rounded object-contain"
+                              />
+                            </div>
+                          ) : (
                           <Videoplayer
                             thumbnail={courseData.thumbnail}
                             width="100%"
                             height="100%"
-                            videoUrl={data.videoUrl}
+                            videoUrl={data.resourceUrl || data.videoUrl}
                           />
+                          )}
                         </div>
                       )}
                     </div>

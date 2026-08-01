@@ -1,5 +1,5 @@
 import { API_BASE_URL } from "../../lib/api";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import {
     Dialog,
@@ -50,48 +50,19 @@ export default function WithdrawalPage() {
             const data = await response.json();
             if (data.success) {
                 setWithdrawalHistory(data.withdrawals);
+                setTotalEarnings(Number(data.availableBalance) || 0);
+            } else {
+                throw new Error(data.message || "Failed to load withdrawals");
             }
         } catch (error) {
             console.error("Error fetching withdrawal history:", error);
+            toast({ title: "Could not load withdrawals", variant: "destructive" });
         }
     };
-
-    const fetchTotalEarnings = useCallback(async () => {
-        try {
-            const ordersResponse = await fetch(`${API_BASE_URL}/instructor/earning/orders`, {
-                credentials: "include"
-            });
-            const orders = await ordersResponse.json();
-              interface Order {
-                orderStatus: string;
-                coursePrice: {
-                    $numberDecimal: string;
-                };
-            }
-            
-            const totalEarned = orders.orders.reduce((sum: number, order: Order) => 
-                sum + (order.orderStatus === "Approval"
-                    ? parseFloat(order.coursePrice.$numberDecimal) 
-                    : 0), 0
-            );
-
-            const totalWithdrawn = withdrawalHistory.reduce((sum: number, request: WithdrawalRequest) => 
-                sum + (request.status === 'approved' ? request.amount : 0), 0
-            );
-
-            setTotalEarnings(totalEarned - totalWithdrawn);
-        } catch (error) {
-            console.error("Error fetching earnings:", error);
-        }
-    }, [withdrawalHistory]);
 
     useEffect(() => {
         fetchWithdrawalHistory();
     }, []);
-
-    useEffect(() => {
-        fetchTotalEarnings();
-    }, [withdrawalHistory, fetchTotalEarnings]);
 
     const handleSubmit = async () => {
         const amountNum = parseFloat(amount);

@@ -69,8 +69,8 @@ export function AdminLayout() {
                     </div>
                 </SidebarBody>
             </Sidebar>
-            <div className="flex-1 flex flex-col w-full h-full">
-                <div className="p-2 overflow-y-scroll no-scrollbar md:p-10 flex-1 overflow-auto rounded-tl-2xl rounded-bl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900">
+            <div className="flex-1 flex flex-col w-full h-full min-w-0 bg-background">
+                <div className="p-5 overflow-y-scroll no-scrollbar md:p-8 flex-1 overflow-auto">
                     <Outlet />
                 </div>
             </div>
@@ -89,7 +89,7 @@ export const Logo = () => {
             <motion.span
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="font-bold text-lg text-black dark:text-white whitespace-pre w-6 h-6"
+                className="font-semibold text-base text-sidebar-foreground whitespace-pre"
             >
                 CMS
             </motion.span>

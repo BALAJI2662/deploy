@@ -78,7 +78,7 @@ export default function LeadCourseEnrollDetailesPage() {
                   Course Content
                 </h2>
                 <p className="text-sm text-gray-500 mt-1">
-                  {courseData[0].course[0].courseId.files.length} videos
+                  {courseData[0].course[0].courseId.files.length} items
                 </p>
               </div>
               
@@ -104,11 +104,7 @@ export default function LeadCourseEnrollDetailesPage() {
                           : "bg-gray-100 text-gray-400 group-hover:bg-primary/20 group-hover:text-primary"
                         }
                       `}>
-                        {value && value - 1 === index ? (
-                          <i className="fa-solid fa-pause text-xs"></i>
-                        ) : (
-                          <i className="fa-solid fa-play text-xs"></i>
-                        )}
+                        <i className={`fa-solid ${data.resourceType === "pdf" ? "fa-file-pdf" : data.resourceType === "image" ? "fa-image" : value && value - 1 === index ? "fa-pause" : "fa-play"} text-xs`}></i>
                       </div>
                       
                       <div className="flex-1 min-w-0">
@@ -122,7 +118,7 @@ export default function LeadCourseEnrollDetailesPage() {
                           {data.title}
                         </p>
                         <p className="text-xs text-gray-500 mt-0.5">
-                          Video {index + 1}
+                          {(data.resourceType || "video").toUpperCase()} {index + 1}
                         </p>
                       </div>
 
@@ -152,12 +148,16 @@ export default function LeadCourseEnrollDetailesPage() {
                           <div className="flex flex-col items-center gap-4">
                             <p className="text-sm text-gray-500">Loading video...</p>
                           </div>
+                        ) : data.resourceType === "pdf" ? (
+                          <iframe title={data.title} src={data.resourceUrl || data.videoUrl} className="h-full w-full bg-white" />
+                        ) : data.resourceType === "image" ? (
+                          <img src={data.resourceUrl || data.videoUrl} alt={data.title} className="h-full w-full object-contain" />
                         ) : (
                           <Videoplayer
                             thumbnail={courseData[0].course[0].courseId.thumbnail}
                             width="100%"
                             height="100%"
-                            videoUrl={data.videoUrl}
+                            videoUrl={data.resourceUrl || data.videoUrl}
                           />
                         )}
                       </div>
@@ -172,8 +172,8 @@ export default function LeadCourseEnrollDetailesPage() {
                           </h1>
                           <div className="flex items-center gap-4 mt-3 text-sm text-gray-500">
                             <span className="flex items-center gap-1">
-                              <i className="fa-solid fa-video text-xs"></i>
-                              Video {value} of {courseData[0].course[0].courseId.files.length}
+                              <i className={`fa-solid ${data.resourceType === "pdf" ? "fa-file-pdf" : data.resourceType === "image" ? "fa-image" : "fa-video"} text-xs`}></i>
+                              {(data.resourceType || "video").toUpperCase()} {value} of {courseData[0].course[0].courseId.files.length}
                             </span>
                             <span className="flex items-center gap-1">
                               <i className="fa-solid fa-clock text-xs"></i>

@@ -1,95 +1,110 @@
 import Loader from "@/components/Loading";
 import { FetchProfileInfo } from "@/components/store/slices/Instructor/profile";
 import { AppDispatch, RootState } from "@/components/store/store";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Label } from "@/components/ui/label";
-import { Pencil } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Building2, Edit3, Github, Hash, Landmark, Linkedin, Mail, UserRound } from "lucide-react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-export default function InstructorProfile() {
+const InstructorProfile = () => {
     const dispatch = useDispatch<AppDispatch>();
     const { isLoading, profileInfo } = useSelector((state: RootState) => state.InstructorProfile);
-    
+
     useEffect(() => {
         dispatch(FetchProfileInfo());
     }, [dispatch]);
 
-    if (isLoading) {
-        return <Loader />;
-    }
+    if (isLoading || !profileInfo) return <Loader />;
+
+    const initials = profileInfo.name?.split(" ").map((name: string) => name[0]).join("").slice(0, 2) || "IN";
+    const details = [
+        { label: "Email address", value: profileInfo.email, icon: Mail },
+        { label: "Branch", value: profileInfo.branch, icon: Building2 },
+        { label: "Roll number", value: profileInfo.rollNumber, icon: Hash },
+        { label: "College", value: profileInfo.college, icon: Landmark },
+        { label: "Gender", value: profileInfo.gender, icon: UserRound },
+    ];
+
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-6 px-4 md:px-6">
-            <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
-                {/* Profile Header */}
-                <div className="relative p-6 flex flex-col sm:flex-row items-start gap-6 border-b">
-                    <div className="w-32 h-32 rounded-lg overflow-hidden shadow-md">
-                        <AspectRatio ratio={1}>
-                            <img 
-                                src={profileInfo?.profileImg} 
-                                alt={profileInfo?.name} 
-                                className="object-cover w-full h-full"
-                            />
-                        </AspectRatio>
+        <div className="min-h-full bg-background">
+            <div className="mx-auto max-w-5xl space-y-6">
+                <header className="flex flex-col gap-4 border-b border-border pb-5 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <p className="text-sm font-medium text-primary">Instructor workspace</p>
+                        <h1 className="mt-1 font-semibold">Profile</h1>
+                        <p className="mt-1 text-sm text-muted-foreground">Keep your teaching profile and payment details up to date.</p>
                     </div>
+                    <Button asChild>
+                        <Link to="update"><Edit3 className="mr-2 h-4 w-4" />Edit profile</Link>
+                    </Button>
+                </header>
 
-                    <div className="flex-1">
-                        <h2 className="text-xl font-semibold text-gray-900">{profileInfo.name}</h2>
-                        <p className="text-sm text-gray-500 mt-1">{profileInfo.email}</p>
-                        <div className="flex gap-3 mt-3">
-                            {profileInfo.gitHub && (
-                                <a href={profileInfo.gitHub} target="_blank" rel="noopener noreferrer" 
-                                   className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 py-1 px-3 rounded-full transition-colors">
-                                    GitHub
-                                </a>
-                            )}
-                            {profileInfo.linkedIn && (
-                                <a href={profileInfo.linkedIn} target="_blank" rel="noopener noreferrer"
-                                   className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 py-1 px-3 rounded-full transition-colors">
-                                    LinkedIn
-                                </a>
-                            )}
+                <Card className="overflow-hidden">
+                    <CardContent className="px-5 py-6 sm:px-7">
+                        <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+                            <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
+                                <Avatar className="h-20 w-20 border border-border shadow-sm">
+                                    <AvatarImage src={profileInfo.profileImg} alt={profileInfo.name} />
+                                    <AvatarFallback className="bg-primary text-lg font-semibold text-primary-foreground">{initials}</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <div className="flex flex-wrap items-center gap-2">
+                                        <h2 className="font-semibold">{profileInfo.name}</h2>
+                                        <Badge variant="secondary">Instructor</Badge>
+                                    </div>
+                                    <p className="mt-1 text-sm text-muted-foreground">{profileInfo.email}</p>
+                                </div>
+                            </div>
+                            <div className="flex gap-2">
+                                {profileInfo.gitHub && <Button variant="outline" size="sm" asChild><a href={profileInfo.gitHub} target="_blank" rel="noreferrer"><Github className="mr-2 h-4 w-4" />GitHub</a></Button>}
+                                {profileInfo.linkedIn && <Button variant="outline" size="sm" asChild><a href={profileInfo.linkedIn} target="_blank" rel="noreferrer"><Linkedin className="mr-2 h-4 w-4" />LinkedIn</a></Button>}
+                            </div>
                         </div>
-                    </div>
+                    </CardContent>
+                </Card>
 
-                    <Link to='update' className="absolute top-6 right-6">
-                        <div className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-                            <Pencil size={16} className="text-gray-500" />
-                        </div>
-                    </Link>
-                </div>
+                <div className="grid gap-6 lg:grid-cols-3">
+                    <Card className="lg:col-span-2">
+                        <CardContent className="p-5 sm:p-6">
+                            <div className="mb-5">
+                                <h2 className="font-semibold">Personal information</h2>
+                                <p className="mt-1 text-sm text-muted-foreground">These details are visible to your course learners and administrators.</p>
+                            </div>
+                            <div className="grid gap-x-6 sm:grid-cols-2">
+                                {details.map(({ label, value, icon: Icon }) => (
+                                    <div key={label} className="flex gap-3 border-t border-border py-4 first:border-t-0 sm:odd:border-t-0">
+                                        <div className="mt-0.5 rounded-md bg-primary/10 p-2 text-primary"><Icon className="h-4 w-4" /></div>
+                                        <div className="min-w-0">
+                                            <p className="text-xs font-medium text-muted-foreground">{label}</p>
+                                            <p className="mt-1 break-words text-sm font-medium capitalize">{value || "Not provided"}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </CardContent>
+                    </Card>
 
-                {/* Profile Details */}
-                <div className="p-6">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div className="space-y-1">
-                            <Label className="text-xs text-gray-500">Branch</Label>
-                            <p className="text-sm bg-gray-50 p-2 rounded">{profileInfo.branch}</p>
-                        </div>
-                        
-                        <div className="space-y-1">
-                            <Label className="text-xs text-gray-500">Roll Number</Label>
-                            <p className="text-sm bg-gray-50 p-2 rounded">{profileInfo.rollNumber}</p>
-                        </div>
-                        
-                        <div className="space-y-1">
-                            <Label className="text-xs text-gray-500">Gender</Label>
-                            <p className="text-sm bg-gray-50 p-2 rounded capitalize">{profileInfo.gender}</p>
-                        </div>
-                        
-                        <div className="space-y-1">
-                            <Label className="text-xs text-gray-500">College</Label>
-                            <p className="text-sm bg-gray-50 p-2 rounded">{profileInfo.college}</p>
-                        </div>
-
-                        <div className="space-y-1">
-                            <Label className="text-xs text-gray-500">UPI ID</Label>
-                            <p className="text-sm bg-gray-50 p-2 rounded font-mono">{profileInfo.UPI}</p>
-                        </div>
-                    </div>
+                    <Card>
+                        <CardContent className="p-5 sm:p-6">
+                            <h2 className="font-semibold">Payout details</h2>
+                            <p className="mt-1 text-sm text-muted-foreground">Used when withdrawal requests are processed.</p>
+                            <div className="mt-5 rounded-lg border border-border bg-muted/50 p-4">
+                                <p className="text-xs font-medium text-muted-foreground">UPI ID</p>
+                                <p className="mt-1 break-all font-mono text-sm font-medium">{profileInfo.UPI || "Not provided"}</p>
+                            </div>
+                            <Button className="mt-4 w-full" variant="secondary" asChild>
+                                <Link to="update">Update payout details</Link>
+                            </Button>
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
+
+export default InstructorProfile;
