@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const userModel = require('../../Models/RBAC/userModel');
 require('dotenv').config()
 
-const COOKIE_NAME = 'cms_auth_token';
+const COOKIE_NAME = process.env.COOKIE_NAME || 'cms_auth_token';
 const JWT_EXPIRY = '7d';
 const COOKIE_MAX_AGE = 7 * 24 * 60 * 60 * 1000; // 7 days
 

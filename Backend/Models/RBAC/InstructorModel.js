@@ -58,7 +58,6 @@ const InstructorSchema = new mongoose.Schema({
 }, { timestamps: true })
 
 InstructorSchema.index({ userId: 1 });
-InstructorSchema.index({ email: 1 });
 
 const InstructorModel = mongoose.model("Instructors", InstructorSchema);
 module.exports = InstructorModel;
