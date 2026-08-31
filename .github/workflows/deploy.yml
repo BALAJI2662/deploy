@@ -50,7 +50,7 @@ jobs:
             echo "🎨 Deploying Frontend..."
             cd frontend
             npm install
-            npm run build
+            NODE_OPTIONS="--max-old-space-size=2048" npm run build
             cd ..
 
             # Reload Nginx
