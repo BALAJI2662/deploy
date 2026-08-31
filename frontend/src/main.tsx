@@ -11,7 +11,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 createRoot(document.getElementById('root')!).render(
   // <StrictMode>
   <Provider store={store}>
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || "106160230732-lneq2ntge0rt74v5da9th7194d6uiq3h.apps.googleusercontent.com"}>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || "448527870923-vll09s6v55rvisd74ngfm663gobh1651.apps.googleusercontent.com"}>
       <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
         <BrowserRouter>
           <App />
