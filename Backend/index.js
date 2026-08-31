@@ -32,7 +32,10 @@ app.use(express.json())
 warnWhenUpstashIsMissing();
 
 app.use(cors({
-    origin: ['http://localhost:5173',"http://localhost:4173" , "https://course-management-system-1-a96d.onrender.com" , "https://cms-bharani.vercel.app" , "https://cms4.vercel.app"], // or whatever port your Vite frontend runs on
+    origin: (origin, callback) => {
+        // Allow all frontend origins with credentials support
+        callback(null, true);
+    },
     credentials: true
 }));
 
