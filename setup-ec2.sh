@@ -28,7 +28,9 @@ pm2 startup systemd -u ubuntu --hp /home/ubuntu || true
 
 # 5. Configure Nginx
 echo "⚙️ Configuring Nginx..."
-sudo cp /home/ubuntu/Course_management_system/nginx-course-management.conf /etc/nginx/sites-available/course_management
+CURRENT_DIR=$(pwd)
+sudo sed -i "s|/home/ubuntu/Course_management_system|$CURRENT_DIR|g" "$CURRENT_DIR/nginx-course-management.conf"
+sudo cp "$CURRENT_DIR/nginx-course-management.conf" /etc/nginx/sites-available/course_management
 sudo rm -f /etc/nginx/sites-enabled/default
 sudo ln -sf /etc/nginx/sites-available/course_management /etc/nginx/sites-enabled/course_management
 sudo nginx -t

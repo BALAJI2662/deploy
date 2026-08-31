@@ -26,7 +26,14 @@ jobs:
             echo "🚀 Starting Deployment on EC2..."
 
             # Navigate to project directory
-            cd ~/Course_management_system
+            if [ -d "$HOME/deploy" ]; then
+              cd "$HOME/deploy"
+            elif [ -d "$HOME/Course_management_system" ]; then
+              cd "$HOME/Course_management_system"
+            else
+              echo "Error: Project directory not found in home folder."
+              exit 1
+            fi
 
             # Pull latest changes
             echo "📥 Pulling latest changes from git..."
