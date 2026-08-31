@@ -1,0 +1,59 @@
+# Stage 1: Build Frontend
+FROM node:20-alpine AS build
+
+WORKDIR /app
+
+# Accept Vite build environment arguments
+ARG VITE_API_URL=""
+ARG VITE_FIREBASE_API_KEY
+ARG VITE_FIREBASE_AUTH_KEY
+ARG VITE_FIREBASE_PROJECT_ID
+ARG VITE_FIREBASE_STORAGE_BUCKET
+ARG VITE_FIREBASE_MESSAGING_SENDER
+ARG VITE_FIREBASE_APP_ID
+ARG VITE_FIREBASE_AUTH_DOMAIN
+ARG VITE_CLOUDINARY_CLOUD_NAME
+ARG VITE_CLOUDINARY_UPLOAD_PRESET
+ARG VITE_GOOGLE_CLIENT_ID
+
+# Set build arguments as environment variables for Vite
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_FIREBASE_API_KEY=$VITE_FIREBASE_API_KEY
+ENV VITE_FIREBASE_AUTH_KEY=$VITE_FIREBASE_AUTH_KEY
+ENV VITE_FIREBASE_PROJECT_ID=$VITE_FIREBASE_PROJECT_ID
+ENV VITE_FIREBASE_STORAGE_BUCKET=$VITE_FIREBASE_STORAGE_BUCKET
+ENV VITE_FIREBASE_MESSAGING_SENDER=$VITE_FIREBASE_MESSAGING_SENDER
+ENV VITE_FIREBASE_APP_ID=$VITE_FIREBASE_APP_ID
+ENV VITE_FIREBASE_AUTH_DOMAIN=$VITE_FIREBASE_AUTH_DOMAIN
+ENV VITE_CLOUDINARY_CLOUD_NAME=$VITE_CLOUDINARY_CLOUD_NAME
+ENV VITE_CLOUDINARY_UPLOAD_PRESET=$VITE_CLOUDINARY_UPLOAD_PRESET
+ENV VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci
+
+# Copy source files
+COPY . .
+
+# Build Vite static bundle with 2GB Node memory allocated
+RUN NODE_OPTIONS="--max-old-space-size=2048" npm run build
+
+# Stage 2: Serve with Nginx
+FROM nginx:alpine AS production
+
+# Remove default Nginx website
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy built assets from build stage
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Copy custom Nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose HTTP port
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

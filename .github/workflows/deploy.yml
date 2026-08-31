@@ -39,22 +39,13 @@ jobs:
             echo "📥 Pulling latest changes from git..."
             git pull origin main
 
-            # Deploy Backend
-            echo "📦 Deploying Backend..."
-            cd Backend
-            npm install --production=false
-            pm2 restart ecosystem.config.js --update-env || pm2 start ecosystem.config.js
-            cd ..
+            # Build and deploy with Docker Compose
+            echo "🐳 Building and starting Docker containers..."
+            docker compose build
+            docker compose up -d --remove-orphans
 
-            # Deploy Frontend
-            echo "🎨 Deploying Frontend..."
-            cd frontend
-            npm install
-            NODE_OPTIONS="--max-old-space-size=2048" npm run build
-            cd ..
+            # Clean up old unused images to save disk space
+            echo "🧹 Cleaning up old Docker images..."
+            docker image prune -f
 
-            # Reload Nginx
-            echo "🔄 Reloading Nginx..."
-            sudo systemctl reload nginx
-
-            echo "✅ Deployment Successful!"
+            echo "✅ Docker Deployment Successful!"
