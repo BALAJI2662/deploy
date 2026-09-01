@@ -64,19 +64,18 @@ export default function StudentForm() {
                 return;
             }
 
-            // Validate file selection
-            if (!selectedFiles[0]) {
-                toast({
-                    title: "Profile image required",
-                    description: "Please select a profile image",
-                    variant: "destructive"
-                });
-                setLoading(false);
-                return;
-            }
+            // Use uploaded image or default avatar
+            const DEFAULT_AVATAR = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=80";
+            let profileImgUrl = DEFAULT_AVATAR;
 
-            // Upload image and get URL
-            const profileImgUrl = await uploadFile(selectedFiles[0]);
+            if (selectedFiles && selectedFiles[0]) {
+                try {
+                    profileImgUrl = await uploadFile(selectedFiles[0]);
+                } catch (uploadError) {
+                    console.warn("Cloudinary upload failed, falling back to default image:", uploadError);
+                    profileImgUrl = DEFAULT_AVATAR;
+                }
+            }
 
             // Submit form data
             const studentData = {

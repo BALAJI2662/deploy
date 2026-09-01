@@ -57,15 +57,17 @@ export default function InstructorForm() {
                 return;
             }
 
-            // Validate file selection
-            if (!selectedFiles[0]) {
-                toast({
-                    title: "Profile image required",
-                    description: "Please select a profile image",
-                    variant: "destructive"
-                });
-                setLoading(false);
-                return;
+            // Use uploaded image or default avatar
+            const DEFAULT_AVATAR = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=80";
+            let profileImgUrl = DEFAULT_AVATAR;
+
+            if (selectedFiles && selectedFiles[0]) {
+                try {
+                    profileImgUrl = await uploadFile(selectedFiles[0]);
+                } catch (uploadError) {
+                    console.warn("Cloudinary upload failed, falling back to default image:", uploadError);
+                    profileImgUrl = DEFAULT_AVATAR;
+                }
             }
 
             // Validate LinkedIn URL
@@ -89,9 +91,6 @@ export default function InstructorForm() {
                 setLoading(false);
                 return;
             }
-
-            // Upload image and get URL
-            const profileImgUrl = await uploadFile(selectedFiles[0]);
 
             // Submit form data
             const instructorData = {
