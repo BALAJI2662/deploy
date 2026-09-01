@@ -243,7 +243,7 @@ export default function InstructorForm() {
             <Button 
                 disabled={loading} 
                 type="submit" 
-                className="w-full md:w-1/2 mt-6 md:mt-10"
+                className="w-full md:w-1/2 mt-6 md:mt-10 bg-orange-500 hover:bg-orange-600 text-white font-semibold transition-all duration-200"
             >
                 {loading ? "Submitting..." : "Submit"}
             </Button>
